@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Ideas — Like a Canvas</title>
+  <meta name="description" content="実績から見る、グッズのカスタムアイデア。素材・加工・ディテールによって印象が大きく変わります。">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    [data-fade] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    [data-fade].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== CUSTOM IDEAS PAGE ===== */
+    .ci-page-main {
+      margin-top: 77px;
+    }
+
+    /* ヘッダー */
+    .ci-header {
+      background: #111;
+      color: #fff;
+      padding: 72px 0 56px;
+    }
+
+    .ci-header-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+    }
+
+    .ci-header-label {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 16px;
+    }
+
+    .ci-header-title {
+      font-family: var(--font-heading);
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 200;
+      letter-spacing: 0.1em;
+      line-height: 1.0;
+      margin-bottom: 24px;
+    }
+
+    .ci-header-sub {
+      font-size: 13px;
+      line-height: 1.9;
+      opacity: 0.65;
+      max-width: 540px;
+    }
+
+    /* フィルタータグ */
+    .ci-filter {
+      background: #f5f5f5;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      position: sticky;
+      top: 77px;
+      z-index: 10;
+    }
+
+    .ci-filter-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .ci-filter-label {
+      font-family: var(--font-heading);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-gray-mid);
+      margin-right: 4px;
+    }
+
+    .ci-filter-btn {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      background: transparent;
+      border: 1px solid rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #555;
+    }
+
+    .ci-filter-btn.active,
+    .ci-filter-btn:hover {
+      background: #1a1a1a;
+      color: #fff;
+      border-color: #1a1a1a;
+    }
+
+    /* カードグリッド */
+    .ci-grid-section {
+      padding: 56px 0 80px;
+    }
+
+    .ci-grid-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+    }
+
+    .ci-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .ci-card {
+      background: #fff;
+      overflow: hidden;
+      transition: opacity 0.3s;
+    }
+
+    .ci-card.hidden {
+      display: none;
+    }
+
+    .ci-card-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: var(--color-gray);
+    }
+
+    .ci-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .ci-card:hover .ci-card-img img {
+      transform: scale(1.04);
+    }
+
+    .ci-card-body {
+      padding: 20px 20px 24px;
+    }
+
+    .ci-card-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .ci-card-desc {
+      font-size: 12px;
+      line-height: 1.75;
+      color: #555;
+      margin-bottom: 14px;
+    }
+
+    .ci-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .ci-tag {
+      font-family: var(--font-heading);
+      font-size: 8px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      background: #f0f0f0;
+      color: #666;
+    }
+
+    /* CTAバナー */
+    .ci-cta {
+      background: #1a1a1a;
+      padding: 56px 0;
+    }
+
+    .ci-cta-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+      text-align: center;
+    }
+
+    .ci-cta-label {
+      font-family: var(--font-heading);
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 16px;
+    }
+
+    .ci-cta-text {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .ci-cta-btn {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 14px 40px;
+      background: #fff;
+      color: #1a1a1a;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .ci-cta-btn:hover { opacity: 0.8; }
+
+    /* アーカイブstrip */
+    .ci-archive-section {
+      background: #f5f5f5;
+      padding: 28px 0;
+    }
+
+    .ci-archive-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+    }
+
+    @media (max-width: 767px) {
+      .ci-page-main { margin-top: 60px; }
+      .ci-filter { top: 60px; }
+      .ci-header { padding: 48px 0 36px; }
+      .ci-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .ci-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../index.html" class="navbar-logo">
+        <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+      </a>
+      <ul class="nav-menu">
+        <li><a href="../index.html#archives">制作事例</a></li>
+        
+        <li><a href="design.html">デザイン制作と<br>入稿方法</a></li>
+        <li><a href="what-we-can-do.html">何ができる？</a></li>
+        <li><a href="factory.html">提携工場</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" class="nav-contact-btn">お問い合わせ</a></li>
+      </ul>
+      <button class="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <button class="mobile-menu-close" aria-label="閉じる">×</button>
+    <a href="../index.html#archives">制作事例</a>
+    
+    <a href="design.html">デザイン制作と入稿方法</a>
+    <a href="what-we-can-do.html">何ができる？</a>
+    <a href="factory.html">提携工場</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">お問い合わせ</a>
+  </div>
+
+  <main class="ci-page-main">
+
+    <!-- ヘッダー -->
+    <div class="ci-header">
+      <div class="ci-header-inner">
+        <p class="ci-header-label">Custom Ideas</p>
+        <h1 class="ci-header-title">Custom<br>Ideas</h1>
+        <p class="ci-header-sub">グッズは、ロゴを載せるだけでなく、素材や加工、ディテールによって印象が大きく変わります。ここでは、これまでの実績をもとにしたカスタムのアイデアをご紹介します。</p>
+      </div>
+    </div>
+
+    <!-- フィルター -->
+    <div class="ci-filter">
+      <div class="ci-filter-inner">
+        <span class="ci-filter-label">Filter</span>
+        <button class="ci-filter-btn active" data-filter="all">All</button>
+        <button class="ci-filter-btn" data-filter="print">Print</button>
+        <button class="ci-filter-btn" data-filter="fabric">Fabric</button>
+        <button class="ci-filter-btn" data-filter="detail">Detail</button>
+        <button class="ci-filter-btn" data-filter="package">Package</button>
+        <button class="ci-filter-btn" data-filter="functional">Functional</button>
+      </div>
+    </div>
+
+    <!-- カードグリッド -->
+    <div class="ci-grid-section">
+      <div class="ci-grid-inner">
+        <div class="ci-grid" id="ci-grid">
+
+          <div class="ci-card" data-category="detail">
+            <div class="ci-card-img">
+              <img src="../assets/images/681b02869f09a54f86f32551_DSC01590.jpg" alt="タッセル付きうちわ" loading="lazy">
+            </div>
+            <div class="ci-card-body">
+              <h3 class="ci-card-title">うちわにタッセルを付ける</h3>
+              <p class="ci-card-desc">コンサートグッズの定番・うちわに房飾り（タッセル）を追加。単価を抑えながら、手元の印象を大きく変えるディテールワーク。</p>
+              <div class="ci-card-tags">
+                <span class="ci-tag">Tassel Detail</span>
+                <span class="ci-tag">Event Goods</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ci-card" data-category="print">
+            <div class="ci-card-img">
+              <img src="../assets/images/681ac9e687cad6b4b083b570_DSC01419_0002_DSC01434.jpg" alt="反射プリント" loading="lazy">
+            </div>
+            <div class="ci-card-body">
+              <h3 class="ci-card-title">反射プリントを入れる</h3>
+              <p class="ci-card-desc">ライブやフェスの照明に反応するリフレクティブプリント。通常のシルクスクリーンと組み合わせることで昼夜で異なる表情をつくる。</p>
+              <div class="ci-card-tags">
+                <span class="ci-tag">Reflective Print</span>
+                <span class="ci-tag">Silkscreen</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ci-card" data-category="functional">
+            <div class="ci-card-img">
+              <img src="../assets/images/681af5a9a7e83363a565b3be_DSC01439_0003_背景.jpg" alt="パッカブル仕様" loading="lazy">
+            </div>
+            <div class="ci-card-body">
+              <h3 class="ci-card-title">バッグをパッカブル仕様にする</h3>
+              <p class="ci-card-desc">収納ポケットに本体をまるごと収納できるパッカブル設計。軽量ナイロンと組み合わせ、フェス・アウトドアシーンに合わせた実用性を持たせる。</p>
+              <div class="ci-card-tags">
+                <span class="ci-tag">Packable</span>
+                <span class="ci-tag">Nylon</span>
+                <span class="ci-tag">Functional</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ci-card" data-category="detail">
+            <div class="ci-card-img">
+              <img src="../assets/images/681afca6b1026f7389055124_DSC01732_0000_レイヤー 0_0003_背景.jpg" alt="トリコロールネーム" loading="lazy">
+            </div>
+            <div class="ci-card-body">
+              <h3 class="ci-card-title">キャップにトリコロールのネームを付ける</h3>
+              <p class="ci-card-desc">フランスのカフェをテーマにしたキャップに、青・白・赤のトリコロール配色のオリジナルネームテープを縫い付け。世界観を細部で表現する。</p>
+              <div class="ci-card-tags">
+                <span class="ci-tag">Custom Tag</span>
+                <span class="ci-tag">Embroidery</span>
+                <span class="ci-tag">World-building</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ci-card" data-category="fabric">
+            <div class="ci-card-img">
+              <img src="../assets/images/681b068125cef1412628d803_DSC01703_0004_背景_0003_背景.jpg" alt="染め洗い加工" loading="lazy">
+            </div>
+            <div class="ci-card-body">
+              <h3 class="ci-card-title">染め・洗い加工で風合いを出す</h3>
+              <p class="ci-card-desc">ガーメントダイ（製品染め）や洗い加工で、新品にヴィンテージライクな風合いを与える。同じシルエットでも素材処理で別物の印象になる。</p>
+              <div class="ci-card-tags">
+                <span class="ci-tag">Garment Dye</span>
+                <span class="ci-tag">Washed</span>
+                <span class="ci-tag">Original Fabric</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ci-card" data-category="fabric">
+            <div class="ci-card-img">
+              <img src="../assets/images/6819d717e97984633ddb818a_DSC01543 2のコピー.jpg" alt="生地から設計するTシャツ" loading="lazy">
+            </div>
+            <div class="ci-card-body">
+              <h3 class="ci-card-title">Tシャツの生地・厚み・シルエットから考える</h3>
+              <p class="ci-card-desc">既製品では出せない重量感・シルエット・質感を、生地の仕様から設計する。320gのヘビーウェイトや、ドロップショルダーなど体型カバーのカット設計も可能。</p>
+              <div class="ci-card-tags">
+                <span class="ci-tag">Original Fabric</span>
+                <span class="ci-tag">Heavy Weight</span>
+                <span class="ci-tag">Full Order</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ci-card" data-category="detail package">
+            <div class="ci-card-img">
+              <img src="../assets/images/67225feb622882e9ed7362a8_スクリーンショット 2024-10-31 1.00.32.jpg" alt="タグ・ネームで世界観を作る" loading="lazy">
+            </div>
+            <div class="ci-card-body">
+              <h3 class="ci-card-title">タグ・ネーム・ピスネームで世界観を作る</h3>
+              <p class="ci-card-desc">下げ札・ネームテープ・ピスネーム（ワッペン）などの付属品を統一することで、グッズ全体のブランド感が大きく上がる。印刷から縫い付けまで一括対応。</p>
+              <div class="ci-card-tags">
+                <span class="ci-tag">Custom Tag</span>
+                <span class="ci-tag">Hang Tag</span>
+                <span class="ci-tag">Branding</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ci-card" data-category="functional fabric">
+            <div class="ci-card-img">
+              <img src="../assets/images/67225febbb9c9589325b29f1_スクリーンショット 2024-10-31 1.00.24.jpg" alt="素材機能を使う" loading="lazy">
+            </div>
+            <div class="ci-card-body">
+              <h3 class="ci-card-title">撥水・防水・メッシュ・リップストップ素材を使う</h3>
+              <p class="ci-card-desc">機能素材を採用することで、アウトドア・フェスシーンに実用的なアイテムに仕上がる。軽量リップストップナイロンや撥水加工コーティングも選択可能。</p>
+              <div class="ci-card-tags">
+                <span class="ci-tag">Water-repellent</span>
+                <span class="ci-tag">Ripstop</span>
+                <span class="ci-tag">Functional</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ci-card" data-category="package">
+            <div class="ci-card-img">
+              <img src="../assets/images/67225feb6327c298cfb6b664_スクリーンショット 2024-10-31 1.00.14.jpg" alt="パッケージング" loading="lazy">
+            </div>
+            <div class="ci-card-body">
+              <h3 class="ci-card-title">オリジナルパッケージでスパイスを加える</h3>
+              <p class="ci-card-desc">OPP袋・紙箱・巾着など、商品を包む資材もオリジナルで制作。グッズを開封するシーンまで設計することで、受け取り体験を演出する。</p>
+              <div class="ci-card-tags">
+                <span class="ci-tag">Packaging</span>
+                <span class="ci-tag">Unboxing</span>
+                <span class="ci-tag">Original</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 過去制作事例 -->
+    <div class="ci-archive-section">
+      <div class="ci-archive-inner">
+        <p class="page-archive-strip-label">過去制作事例 — Works</p>
+        <div class="page-archive-strip-scroll" style="padding:0">
+          <div class="page-archive-thumbs" id="page-archive-thumbs"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="ci-cta">
+      <div class="ci-cta-inner">
+        <p class="ci-cta-label">Contact</p>
+        <p class="ci-cta-text">実現したいアイデアや、仕様についてのご相談はこちらから。</p>
+        <a href="contact.html" class="ci-cta-btn">お問い合わせ</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">
+            <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+          </div>
+          <p class="footer-tagline">300枚から3万枚まで、<br>変わらぬ精度で。<br>デザイン〜製造〜納品を一括対応。</p>
+        </div>
+        <div>
+          <p class="footer-nav-title">Service</p>
+          <ul class="footer-nav-list">
+            
+            <li><a href="design.html">デザイン制作と入稿方法</a></li>
+            <li><a href="what-we-can-do.html">何ができる？</a></li>
+            <li><a href="factory.html">提携工場</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-nav-title">Company</p>
+          <ul class="footer-nav-list">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2025 Like a Canvas / 株式会社Aoi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 過去制作事例サムネイル
+      const thumbs = document.getElementById('page-archive-thumbs');
+      PRODUCTS.forEach(p => {
+        const a = document.createElement('a');
+        a.href = `../product.html?id=${p.slug}`;
+        a.className = 'page-archive-thumb';
+        a.innerHTML = `<img src="../assets/images/${p.images[0]}" alt="${p.title}" loading="lazy">`;
+        thumbs.appendChild(a);
+      });
+
+      // フィルター
+      const filterBtns = document.querySelectorAll('.ci-filter-btn');
+      const cards = document.querySelectorAll('.ci-card');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const filter = btn.dataset.filter;
+          cards.forEach(card => {
+            if (filter === 'all' || card.dataset.category.includes(filter)) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

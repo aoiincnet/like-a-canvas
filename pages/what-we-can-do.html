@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>何ができる？ — Like a Canvas</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    [data-fade] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    [data-fade].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* PAGE HEADER — factory heroと完全一致の幅・構造 */
+    .wwcd-hero-outer {
+      margin-top: 77px;
+      padding: 0 var(--site-pad);
+      max-width: calc(var(--site-max) + var(--site-pad) * 2);
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .wwcd-page-header {
+      position: relative;
+      overflow: hidden;
+      background: #111;
+      aspect-ratio: 16 / 6;
+      border-bottom: none;
+    }
+    .wwcd-page-header-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.5;
+    }
+    /* 左側白グラデーション（factory heroと同じ処理） */
+    .wwcd-page-header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(0,0,0,0.72) 0%,
+        rgba(0,0,0,0.52) 45%,
+        rgba(0,0,0,0.18) 100%
+      );
+      z-index: 0;
+    }
+    .wwcd-page-header-inner {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+      width: 100%;
+    }
+    .wwcd-page-heading-wrap {
+      margin-bottom: 0;
+    }
+    .wwcd-page-heading {
+      color: #fff;
+    }
+    .wwcd-page-sub {
+      color: rgba(255,255,255,0.72);
+      font-size: 12px;
+    }
+    .wwcd-explore-label {
+      font-family: var(--font-heading);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+    }
+    /* カードグリッド */
+    .wwcd-header-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+    }
+    .wwcd-header-card {
+      aspect-ratio: 5 / 4;
+      position: relative;
+      overflow: hidden;
+      display: block;
+      text-decoration: none;
+      color: #fff;
+      outline: 2px solid transparent;
+      outline-offset: -2px;
+      transition: outline-color 0.25s ease;
+    }
+    .wwcd-header-card:hover {
+      outline-color: rgba(255,255,255,0.6);
+    }
+    /* イラスト画像 */
+    .wwcd-header-card-img {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .wwcd-header-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .wwcd-header-card:hover .wwcd-header-card-img img { transform: scale(1.04); }
+    /* 下半分グラデーション + テキスト */
+    .wwcd-header-card-body {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 40%,
+        rgba(0,0,0,0.72) 100%
+      );
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 12px;
+    }
+    .wwcd-header-card-body::after { display: none; }
+    .wwcd-header-card-title {
+      font-family: "Yu Gothic", "YuGothic", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+      font-size: clamp(10px, 1.2vw, 13px);
+      letter-spacing: 0.06em;
+      text-transform: none;
+      margin-bottom: 2px;
+      color: #fff;
+    }
+    .wwcd-header-card-desc {
+      font-size: 9px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.4;
+    }
+    .wwcd-lot-note {
+      font-size: 11px;
+      color: #999;
+      line-height: 1.7;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+    @media (max-width: 767px) {
+      .wwcd-hero-outer { padding: 0; }
+      /* headerをstaticレイアウトに切り替えて高さを内容で決める */
+      .wwcd-page-header {
+        aspect-ratio: unset;
+        min-height: unset;
+        display: flex;
+        align-items: stretch;
+      }
+      .wwcd-page-header-video { opacity: 0.4; }
+      .wwcd-page-header-inner {
+        position: static;
+        padding: 28px 20px 24px;
+        width: 100%;
+        gap: 14px;
+      }
+      /* カード画像非表示、2×2グリッド */
+      .wwcd-header-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .wwcd-header-card {
+        aspect-ratio: unset;
+        outline: 1px solid rgba(255,255,255,0.35);
+        outline-offset: 0;
+        display: flex;
+        align-items: center;
+        padding: 14px 16px;
+      }
+      .wwcd-header-card-img { display: none; }
+      .wwcd-header-card-body {
+        position: static;
+        background: none;
+        padding: 0;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+      .wwcd-header-card-title { font-size: 13px; margin-bottom: 0; }
+      .wwcd-header-card-desc { display: none; }
+      .wwcd-header-card-body::after {
+        content: '→';
+        font-family: var(--font-heading);
+        font-size: 12px;
+        color: rgba(255,255,255,0.6);
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../index.html" class="navbar-logo">
+        <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+      </a>
+      <ul class="nav-menu">
+        <li><a href="../index.html#archives">制作実績</a></li>
+        <li><a href="factory.html">提携工場</a></li>
+        <li><a href="what-we-can-do.html">何ができる？</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" class="nav-contact-btn">お問い合わせ</a></li>
+      </ul>
+      <button class="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- モバイルメニュー -->
+  <div class="mobile-menu">
+    <button class="mobile-menu-close" aria-label="閉じる">×</button>
+    <a href="../index.html#archives">制作実績</a>
+    <a href="factory.html">提携工場</a>
+    <a href="what-we-can-do.html">何ができる？</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">お問い合わせ</a>
+  </div>
+
+  <!-- PAGE HEADER with card grid -->
+  <div class="wwcd-hero-outer">
+  <section class="wwcd-page-header">
+    <video class="wwcd-page-header-video" autoplay muted loop playsinline>
+      <source src="../assets/videos/hero2.mp4" type="video/mp4">
+    </video>
+    <div class="wwcd-page-header-inner">
+      <div class="wwcd-page-heading-wrap">
+        <h1 class="wwcd-page-heading">Service Overview</h1>
+        <p class="wwcd-page-sub">「Like a Canvas」では、以下のサービスを通じて、あなたのアイデアを形にします。</p>
+      </div>
+      <p class="wwcd-explore-label">— What would you like to make?</p>
+      <div class="wwcd-header-grid">
+        <a href="#Original-Print" class="wwcd-header-card"><div class="wwcd-header-card-img"><img src="../assets/images/67225ff013fd7ca3d00be8e8_スクリーンショット 2024-10-31 1.00.39.jpg" alt="" loading="lazy"></div><div class="wwcd-header-card-body"><h3 class="wwcd-header-card-title">カスタムプリント</h3><p class="wwcd-header-card-desc">既存アイテムにプリントを入れてオリジナル化。</p></div></a>
+        <a href="#Full-Order-Item" class="wwcd-header-card"><div class="wwcd-header-card-img"><img src="../assets/images/67225febbb9c9589325b29f1_スクリーンショット 2024-10-31 1.00.24.jpg" alt="" loading="lazy"></div><div class="wwcd-header-card-body"><h3 class="wwcd-header-card-title">フルオーダーアイテム</h3><p class="wwcd-header-card-desc">素材・デザイン・カラーをゼロから制作。</p></div></a>
+        <a href="#Packaging" class="wwcd-header-card"><div class="wwcd-header-card-img"><img src="../assets/images/67225feb622882e9ed7362a8_スクリーンショット 2024-10-31 1.00.32.jpg" alt="" loading="lazy"></div><div class="wwcd-header-card-body"><h3 class="wwcd-header-card-title">パッケージング</h3><p class="wwcd-header-card-desc">袋・箱・タグをブランドで統一。</p></div></a>
+        <a href="#Photography" class="wwcd-header-card"><div class="wwcd-header-card-img"><img src="../assets/images/67225feb6327c298cfb6b664_スクリーンショット 2024-10-31 1.00.14.jpg" alt="" loading="lazy"></div><div class="wwcd-header-card-body"><h3 class="wwcd-header-card-title">Visuals &amp; Contents</h3><p class="wwcd-header-card-desc">撮影・商品説明文・商品情報整理。</p></div></a>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- 01 カスタムプリント -->
+  <section class="wwcd-section" id="Original-Print">
+    <div class="wwcd-section-inner">
+      <div class="wwcd-section-header" data-fade>
+        <span class="wwcd-section-num">01</span>
+        <div>
+          <h2 class="wwcd-section-title">カスタムプリント</h2>
+          <p class="wwcd-section-lead">既存のアイテムにプリントを入れてオリジナルアイテムを制作。</p>
+        </div>
+      </div>
+
+      <div class="wwcd-methods" data-fade>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681ac9e687cad6b4b083b570_DSC01419_0002_DSC01434.jpg" alt="シルクスクリーンプリント" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">シルクスクリーンプリント</h3>
+            <p class="wwcd-method-desc">1〜2色のプリントに最適。発色が鮮明でコストパフォーマンスに優れた定番の手法。</p>
+            <p class="wwcd-method-lot">推奨ロット：50枚〜</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681af5a9a7e83363a565b3be_DSC01439_0003_背景.jpg" alt="インクジェットプリント" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">インクジェットプリント</h3>
+            <p class="wwcd-method-desc">多色プリントや写真プリントに最適。グラデーションや複雑なデザインにも対応。</p>
+            <p class="wwcd-method-lot">推奨ロット：50枚〜</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681b068125cef1412628d803_DSC01703_0004_背景_0003_背景.jpg" alt="刺繍" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">刺繍</h3>
+            <p class="wwcd-method-desc">高級感と耐久性に優れた刺繍加工。ロゴやワンポイントに最適。</p>
+            <p class="wwcd-method-lot">推奨ロット：50枚〜</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681afca6b1026f7389055124_DSC01732_0000_レイヤー 0_0003_背景.jpg" alt="特殊プリント" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">特殊プリント</h3>
+            <p class="wwcd-method-desc">箔プリント、グリッタープリントなど、一味違う仕上がりを実現する特殊加工。</p>
+            <p class="wwcd-method-lot">推奨ロット：50枚〜</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="wwcd-desc" data-fade>
+        <p>無地のTシャツやトートバッグ、ポーチ、雑貨など、様々なアイテムにオリジナルデザインをプラスし、貴社だけの特別な商品を提供いたします。</p>
+        <p>各種Tシャツブランドや多彩な素材・カラーからアイテムをお選びいただき、ブランドロゴやオリジナルメッセージを印刷することで、イベントやプロモーションに最適なアイテムに仕上げます。</p>
+        <p>ご要望に応じて最適なプリント方法をご提案し、小ロットから大ロットまで柔軟に対応いたします。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 フルオーダーアイテム -->
+  <section class="wwcd-section wwcd-section--alt" id="Full-Order-Item">
+    <div class="wwcd-section-inner">
+      <div class="wwcd-section-header" data-fade>
+        <span class="wwcd-section-num">02</span>
+        <div>
+          <h2 class="wwcd-section-title">フルオーダーアイテム</h2>
+          <p class="wwcd-section-lead">素材やデザイン、カラーまで選べる、フルオーダーのオリジナルアイテムを制作。</p>
+        </div>
+      </div>
+
+      <div class="wwcd-methods" data-fade>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681ac9e687cad6b4b083b570_DSC01419_0002_DSC01434.jpg" alt="オリジナルアパレル" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">オリジナルアパレル</h3>
+            <p class="wwcd-method-desc">Tシャツ・パーカー・ジャケットなど、生地・縫製・デザインをゼロから設計。</p>
+            <p class="wwcd-method-lot">目安ロット：300枚〜</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681b068125cef1412628d803_DSC01703_0004_背景_0003_背景.jpg" alt="オリジナルグッズ・雑貨" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">オリジナルグッズ・雑貨</h3>
+            <p class="wwcd-method-desc">マスキングテープ・ステッカー・雑貨など、ユニークなグッズをフルオーダーで制作。</p>
+            <p class="wwcd-method-lot">目安ロット：500個〜</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681af5a9a7e83363a565b3be_DSC01439_0003_背景.jpg" alt="オリジナルバッグ・ポーチ" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">オリジナルバッグ・ポーチ</h3>
+            <p class="wwcd-method-desc">サコッシュ・トートバッグ・ポーチなど、形状・素材・カラーを自由に選択。</p>
+            <p class="wwcd-method-lot">目安ロット：300個〜</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681afca6b1026f7389055124_DSC01732_0000_レイヤー 0_0003_背景.jpg" alt="オリジナルレインアイテム" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">オリジナルレインアイテム</h3>
+            <p class="wwcd-method-desc">傘・レインコート・ポンチョ・サンダル・長靴など、素材・カラー・デザインをフルオーダーで制作。</p>
+            <p class="wwcd-method-lot">目安ロット：1,000個〜</p>
+          </div>
+        </div>
+      </div>
+      <p class="wwcd-lot-note" data-fade>※ロット数は仕様・素材・生産背景により変動します。詳しくはご相談ください。</p>
+
+      <div class="wwcd-desc" data-fade>
+        <p>素材の選定からデザイン、カラー展開まで、すべてをゼロから作り上げるフルオーダーサービスです。</p>
+        <p>海外工場と直接連携することで、コストを抑えながらも高品質な商品をお届けします。</p>
+        <p>サンプル制作から量産まで一貫して対応し、ブランドの世界観を細部までこだわり抜いたアイテムを実現します。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 パッケージング -->
+  <section class="wwcd-section" id="Packaging">
+    <div class="wwcd-section-inner">
+      <div class="wwcd-section-header" data-fade>
+        <span class="wwcd-section-num">03</span>
+        <div>
+          <h2 class="wwcd-section-title">パッケージング</h2>
+          <p class="wwcd-section-lead">商品を梱包する際のオリジナルパッケージの制作。スパイスを加えよう。</p>
+        </div>
+      </div>
+
+      <div class="wwcd-methods" data-fade>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681b02869f09a54f86f32551_DSC01590.jpg" alt="オリジナルボックス・化粧箱" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">オリジナルボックス / 化粧箱</h3>
+            <p class="wwcd-method-desc">ブランドロゴや世界観を落とし込んだ、オリジナルの化粧箱を制作。</p>
+            <p class="wwcd-method-lot">目安ロット：500個〜</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/6819d717e97984633ddb818a_DSC01543 2のコピー.jpg" alt="OPP袋・ポリ袋" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">OPP袋 / ポリ袋</h3>
+            <p class="wwcd-method-desc">アパレルやグッズの梱包に欠かせない、印刷入りオリジナル袋。</p>
+            <p class="wwcd-method-lot">目安ロット：500枚〜</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681ac9e687cad6b4b083b570_DSC01419_0002_DSC01434.jpg" alt="下げ札・タグ" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">下げ札 / タグ</h3>
+            <p class="wwcd-method-desc">商品の顔となる下げ札やタグをオリジナルデザインで制作。</p>
+            <p class="wwcd-method-lot">目安ロット：100枚〜</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681af5a9a7e83363a565b3be_DSC01439_0003_背景.jpg" alt="シール・封入ステッカー・ラベル" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">シール / 封入ステッカー / ラベル</h3>
+            <p class="wwcd-method-desc">封入シールや商品ラベルなど、小さなパーツもブランドで統一。</p>
+            <p class="wwcd-method-lot">目安ロット：300枚〜</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="wwcd-desc" data-fade>
+        <p>商品本体だけでなく、販売時や納品時に必要なパッケージ類の制作にも対応しています。</p>
+        <p>オリジナルボックス、化粧箱、OPP袋、下げ札、タグ、シール、封入ステッカー、ラベルなど、アイテムや販売方法に合わせてご提案します。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 Visuals & Contents -->
+  <section class="wwcd-section wwcd-section--alt" id="Photography">
+    <div class="wwcd-section-inner">
+      <div class="wwcd-section-header" data-fade>
+        <span class="wwcd-section-num">04</span>
+        <div>
+          <h2 class="wwcd-section-title">Visuals &amp; Contents</h2>
+          <p class="wwcd-section-lead">撮影・商品情報制作</p>
+        </div>
+      </div>
+
+      <div class="wwcd-methods" data-fade>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/6819d717e97984633ddb818a_DSC01543 2のコピー.jpg" alt="物撮り" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">物撮り</h3>
+            <p class="wwcd-method-desc">白ホリや自然光を使ったクリーンな物撮り。背景切り抜き・レタッチ加工も含めて対応。</p>
+            <p class="wwcd-method-lot">納品前に対応可能</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681b02869f09a54f86f32551_DSC01590.jpg" alt="着用撮影" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">着用撮影</h3>
+            <p class="wwcd-method-desc">アパレルはモデル着用での撮影も対応。SNSやカタログ用のビジュアルを制作。</p>
+            <p class="wwcd-method-lot">要相談</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681afca6b1026f7389055124_DSC01732_0000_レイヤー 0_0003_背景.jpg" alt="商品説明文作成" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">商品説明文作成</h3>
+            <p class="wwcd-method-desc">商品の特徴・仕様・取り扱い情報を整理し、ECサイトや販促資料向けの説明文としてまとめます。</p>
+            <p class="wwcd-method-lot">要相談</p>
+          </div>
+        </div>
+        <div class="wwcd-method-card">
+          <img src="../assets/images/681ac9e687cad6b4b083b570_DSC01419_0002_DSC01434.jpg" alt="商品情報整理" loading="lazy">
+          <div class="wwcd-method-body">
+            <h3 class="wwcd-method-title">商品情報整理</h3>
+            <p class="wwcd-method-desc">素材・サイズ・カラー展開・注意事項など、販売に必要な情報を一括で整理・納品します。</p>
+            <p class="wwcd-method-lot">要相談</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="wwcd-desc" data-fade>
+        <p>商品本体の制作だけでなく、販売や告知に必要な素材づくりにも対応しています。</p>
+        <p>物撮りや着用撮影に加え、商品の特徴や仕様、取り扱いに関する情報を整理し、商品説明文としてまとめることも可能です。</p>
+        <p>ECサイト、SNS、販促資料など、実際に販売・告知する場面まで見据えてサポートします。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 過去制作事例ストリップ -->
+  <div class="page-archive-strip">
+    <p class="page-archive-strip-label">過去制作事例</p>
+    <div class="page-archive-strip-scroll">
+      <div class="page-archive-thumbs" id="page-archive-thumbs"></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="wwcd-cta" data-fade>
+    <div class="wwcd-cta-inner">
+      <p class="wwcd-cta-label">Contact</p>
+      <h2 class="wwcd-cta-title">まずはお気軽に<br>ご相談ください</h2>
+      <a href="contact.html" class="wwcd-cta-btn">お問い合わせ</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">
+            <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+          </div>
+          <p class="footer-tagline">300枚から3万枚まで、<br>変わらぬ精度で。<br>デザイン〜製造〜納品を一括対応。</p>
+        </div>
+        <div>
+          <p class="footer-nav-title">Service</p>
+          <ul class="footer-nav-list">            <li><a href="what-we-can-do.html">何ができる？</a></li>
+            <li><a href="factory.html">提携工場</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-nav-title">Company</p>
+          <ul class="footer-nav-list">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2025 Like a Canvas / 株式会社Aoi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    const OFFSET = 77 + 24;
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        const top = target.getBoundingClientRect().top + window.scrollY - OFFSET;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+    });
+
+    const thumbs = document.getElementById('page-archive-thumbs');
+    if (thumbs) {
+      PRODUCTS.forEach(p => {
+        const a = document.createElement('a');
+        a.href = `../product.html?id=${p.slug}`;
+        a.className = 'page-archive-thumb';
+        a.innerHTML = `<img src="../assets/images/${p.images[0]}" alt="${p.title}" loading="lazy">`;
+        thumbs.appendChild(a);
+      });
+    }
+
+    if (location.hash) {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      window.addEventListener('load', () => {
+        const target = document.querySelector(location.hash);
+        if (target) {
+          const top = target.getBoundingClientRect().top + window.scrollY - OFFSET;
+          window.scrollTo({ top, behavior: 'instant' });
+        }
+      });
+    }
+  </script>
+</body>
+</html>

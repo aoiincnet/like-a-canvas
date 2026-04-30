@@ -1,0 +1,37 @@
+[
+  {
+    "id": "nfrgmt-tape",
+    "title": "NFRGMT Masking Tape",
+    "description": "",
+    "images": ["6819d717e97984633ddb818a_DSC01543 2のコピー.jpg"],
+    "slug": "nfrgmt-tape"
+  },
+  {
+    "id": "strike-staff-t-shirt",
+    "title": "\"STRIKE!\" STAFF T-shirt",
+    "description": "",
+    "images": ["681ac9e687cad6b4b083b570_DSC01419_0002_DSC01434.jpg"],
+    "slug": "strike-staff-t-shirt"
+  },
+  {
+    "id": "join-alive-nf-sacoche",
+    "title": "\"JOIN ALIVE × NF\" サコッシュ",
+    "description": "",
+    "images": ["681af1dbca40bdafa774d651_DSC01459 2.JPG"],
+    "slug": "join-alive-nf-sacoche"
+  },
+  {
+    "id": "sakanaction-eureka-t-shirt",
+    "title": "sakanaction Eureka T-shirt",
+    "description": "",
+    "images": ["681afca6b1026f7389055124_DSC01732_0000_レイヤー 0_0003_背景.jpg"],
+    "slug": "sakanaction-eureka-t-shirt"
+  },
+  {
+    "id": "nfrgmt-slumbers-hoodie",
+    "title": "NFRGMT slumbers Hoodie",
+    "description": "",
+    "images": ["681b068125cef1412628d803_DSC01703_0004_背景_0003_背景.jpg"],
+    "slug": "nfrgmt-slumbers-hoodie"
+  }
+]

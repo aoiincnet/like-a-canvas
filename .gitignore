@@ -1,0 +1,53 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# 大容量メディア・制作データ
+*.psd
+*.ai
+*.aep
+*.prproj
+*.mogrt
+*.indd
+*.sketch
+*.fig
+
+# 元画像・RAW
+*.raw
+*.RAW
+*.cr2
+*.CR2
+*.arw
+*.ARW
+*.nef
+*.NEF
+*.dng
+
+# 巨大動画（必要なものだけ個別に許可する場合は下記を調整）
+# *.mp4
+# *.mov
+# *.avi
+# *.m4v
+
+# APIキー・認証情報・環境変数
+.env
+.env.local
+.env*.local
+*.key
+*.pem
+secrets.*
+credentials.*
+
+# 書類（請求書・見積書・契約書）
+invoices/
+estimates/
+contracts/
+*.pdf
+
+# ログ・キャッシュ
+*.log
+node_modules/
+.cache/
+dist/

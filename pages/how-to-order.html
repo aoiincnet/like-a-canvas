@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ご注文の流れ — Like a Canvas</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    [data-fade] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    [data-fade].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../index.html" class="navbar-logo">
+        <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+      </a>
+      <ul class="nav-menu">
+        <li><a href="../index.html#archives">制作事例</a></li>
+        <li><a href="how-to-order.html">ご注文の流れ</a></li>
+        <li><a href="design.html">デザイン制作と<br>入稿方法</a></li>
+        <li><a href="what-we-can-do.html">何ができる？</a></li>
+        <li><a href="factory.html">提携工場</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" class="nav-contact-btn">お問い合わせ</a></li>
+      </ul>
+      <button class="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <button class="mobile-menu-close" aria-label="閉じる">×</button>
+    <a href="../index.html#archives">制作事例</a>
+    <a href="how-to-order.html">ご注文の流れ</a>
+    <a href="design.html">デザイン制作と入稿方法</a>
+    <a href="what-we-can-do.html">何ができる？</a>
+    <a href="factory.html">提携工場</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">お問い合わせ</a>
+  </div>
+
+  <main class="hto-page-main info-page-main">
+
+    <!-- ① ページヘッダー -->
+    <div class="hto-header" data-fade>
+      <div class="hto-inner">
+        <p class="hto-header-label">How to Order</p>
+        <h1 class="hto-header-title">ご注文の流れ</h1>
+        <p class="hto-header-sub">お問い合わせから納品まで、<br>すべての工程を一貫してサポートします。</p>
+      </div>
+    </div>
+
+    <!-- ② タブ切り替え -->
+    <div class="hto-tabs">
+      <button class="hto-tab hto-tab--a active" data-tab="custom">
+        <span class="hto-tab-type">Track A</span>
+        <span class="hto-tab-title">カスタムプリント</span>
+        <span class="hto-tab-desc">既製品のボディにプリント・刺繍・名入れを施す。<br>小ロット・短納期に対応しやすい。</span>
+        <span class="hto-tab-period">目安納期：約1ヶ月〜</span>
+      </button>
+      <button class="hto-tab hto-tab--b" data-tab="full">
+        <span class="hto-tab-type">Track B</span>
+        <span class="hto-tab-title">フルオーダー</span>
+        <span class="hto-tab-desc">素材・縫製・形状・デザインをゼロから設計するOEM制作。<br>既製品にはない仕様をオリジナルで実現。</span>
+        <span class="hto-tab-period">目安納期：約2〜3ヶ月〜</span>
+      </button>
+    </div>
+
+    <!-- ③ タイムライン -->
+    <div class="hto-timeline-section">
+      <div class="hto-inner">
+        <p class="hto-timeline-label">Order Flow</p>
+        <div class="hto-timeline">
+          <a href="#step-01" class="hto-tl-step"><span class="hto-tl-num">01</span><span class="hto-tl-name">お問い合わせ</span></a>
+          <span class="hto-tl-arrow">→</span>
+          <a href="#step-02" class="hto-tl-step"><span class="hto-tl-num">02</span><span class="hto-tl-name">商品企画</span></a>
+          <span class="hto-tl-arrow">→</span>
+          <a href="#step-03" class="hto-tl-step"><span class="hto-tl-num">03</span><span class="hto-tl-name">お見積もり</span></a>
+          <span class="hto-tl-arrow">→</span>
+          <a href="#step-04" class="hto-tl-step"><span class="hto-tl-num">04</span><span class="hto-tl-name">デザイン入稿</span></a>
+          <span class="hto-tl-arrow">→</span>
+          <a href="#step-05" class="hto-tl-step"><span class="hto-tl-num">05</span><span class="hto-tl-name">サンプル確認</span></a>
+          <span class="hto-tl-arrow">→</span>
+          <a href="#step-06" class="hto-tl-step"><span class="hto-tl-num">06</span><span class="hto-tl-name">本生産</span></a>
+          <span class="hto-tl-arrow">→</span>
+          <a href="#step-07" class="hto-tl-step"><span class="hto-tl-num">07</span><span class="hto-tl-name">検品</span></a>
+          <span class="hto-tl-arrow">→</span>
+          <a href="#step-08" class="hto-tl-step"><span class="hto-tl-num">08</span><span class="hto-tl-name">輸送・通関</span></a>
+          <span class="hto-tl-arrow">→</span>
+          <a href="#step-09" class="hto-tl-step"><span class="hto-tl-num">09</span><span class="hto-tl-name">納品</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④ カスタムプリント ステップ -->
+    <div class="hto-tab-content active" data-tab="custom">
+
+      <div class="hto-step" id="step-01">
+        <div class="hto-inner">
+          <span class="hto-step-deco">01</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">お問い合わせ・ヒアリング</h3>
+            <p class="hto-step-desc">フォームまたはメールにてご連絡ください。プリントしたいアイテムの種類と数量、納期の目安をお知らせいただくとスムーズです。アイテムが決まっていない段階でも対応可能です。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step hto-step--sand">
+        <div class="hto-inner">
+          <span class="hto-step-deco">02</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">商品企画・仕様設計</h3>
+            <p class="hto-step-desc">プリントするボディ（Tシャツ・バッグ・雑貨など）とプリント手法を確定します。シルクスクリーン・インクジェット・刺繍・転写など、デザインや数量に応じた手法をご提案します。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step">
+        <div class="hto-inner">
+          <span class="hto-step-deco">03</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">お見積もり</h3>
+            <p class="hto-step-desc">ボディの種類・数量・プリント手法をもとにお見積もりをご提出します。複数の手法・数量パターンでの比較提示も可能です。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step hto-step--sand">
+        <div class="hto-inner">
+          <span class="hto-step-deco">04</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">デザイン入稿・確認</h3>
+            <p class="hto-step-desc">デザインデータをご入稿いただきます。データ規格の詳細は「デザイン制作と入稿方法」ページをご参照ください。入稿後、発注前にデータの確認・修正対応を行います。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step">
+        <div class="hto-inner">
+          <span class="hto-step-deco">05</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">プリントサンプル・色校正</h3>
+            <p class="hto-step-desc">本生産前にプリントサンプルまたは色校正で実際の仕上がりをご確認いただきます。色味・発色・位置を確認し、承認後に本生産へ進みます。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step hto-step--sand">
+        <div class="hto-inner">
+          <span class="hto-step-deco">06</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">本生産・工程管理</h3>
+            <p class="hto-step-desc">承認後、本生産を開始します。担当者が工場と直接連絡を取り、品質・数量・納期を管理します。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step">
+        <div class="hto-inner">
+          <span class="hto-step-deco">07</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">検品</h3>
+            <p class="hto-step-desc">完成品の全数検品を実施します。プリントのズレ・色ムラ・汚れなどを事前に設定した基準に基づいて確認します。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step hto-step--sand">
+        <div class="hto-inner">
+          <span class="hto-step-deco">08</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">輸送・通関</h3>
+            <p class="hto-step-desc">国内工場の場合はこの工程がありません。中国工場を使用する場合は、船便・混載便・航空便から納期と予算に応じて最適な手段を手配します。通関手続きも弊社にて対応します。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step">
+        <div class="hto-inner">
+          <span class="hto-step-deco">09</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">納品</h3>
+            <p class="hto-step-desc">指定の納品先へお届けします。倉庫・イベント会場など、形態に応じて対応します。納品後の商品撮影もあわせてご利用いただけます。</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /custom tab -->
+
+    <!-- ④ フルオーダー ステップ -->
+    <div class="hto-tab-content" data-tab="full">
+
+      <div class="hto-step" id="step-01-full">
+        <div class="hto-inner">
+          <span class="hto-step-deco">01</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">お問い合わせ・ヒアリング</h3>
+            <p class="hto-step-desc">フォームまたはメールにてご連絡ください。アイテムの種類・数量・納期・ご予算の目安をお知らせいただくとスムーズです。デザインや仕様が未定の段階でも対応可能です。初回ヒアリングでは制作の目的や世界観についてもお聞きします。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step hto-step--sand">
+        <div class="hto-inner">
+          <span class="hto-step-deco">02</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">商品企画・仕様設計</h3>
+            <p class="hto-step-desc">素材・縫製・形状・カラー・加工方法・パッケージをゼロから設計します。ヒアリング内容をもとに仕様書を作成します。デザインが未決定の場合は、この段階でデザイン制作のご相談も可能です。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step">
+        <div class="hto-inner">
+          <span class="hto-step-deco">03</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">お見積もり</h3>
+            <p class="hto-step-desc">仕様確定後にお見積もりをご提出します。素材・縫製・加工・輸送費・関税・検品費を含めたトータルコストでご案内します。複数パターンでの比較提示も可能です。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step hto-step--sand">
+        <div class="hto-inner">
+          <span class="hto-step-deco">04</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">デザイン入稿・確認</h3>
+            <p class="hto-step-desc">デザインデータをご入稿いただきます。入稿規格の詳細は「デザイン制作と入稿方法」ページをご参照ください。入稿後、工場発注前にデータの確認・修正対応を行います。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step">
+        <div class="hto-inner">
+          <span class="hto-step-deco">05</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">サンプル制作・承認</h3>
+            <p class="hto-step-desc">本生産前に縫製・素材・プリントすべてを含む実物サンプルを制作します。色味・素材感・縫製仕様を実物で確認いただき、承認後に本生産へ進みます。修正がある場合はこの段階で対応します。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step hto-step--sand">
+        <div class="hto-inner">
+          <span class="hto-step-deco">06</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">本生産・工程管理</h3>
+            <p class="hto-step-desc">サンプル承認後、本生産を開始します。担当者が工場と直接連絡を取り、進捗・品質・納期を継続的に管理します。生産中の途中検品も実施します。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step">
+        <div class="hto-inner">
+          <span class="hto-step-deco">07</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">検品</h3>
+            <p class="hto-step-desc">完成品の全数検品を実施します。素材・縫製・プリント・パッケージ各項目を、事前に設定した検品基準に基づいて確認します。B品については数量・内容を記録し廃棄証明書を発行します。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step hto-step--sand">
+        <div class="hto-inner">
+          <span class="hto-step-deco">08</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">輸送・通関</h3>
+            <p class="hto-step-desc">船便・混載便・航空便の中から、納期・数量・予算に応じて最適な輸送手段を手配します。通関手続きも弊社にて対応します。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hto-step">
+        <div class="hto-inner">
+          <span class="hto-step-deco">09</span>
+          <div class="hto-step-content">
+            <h3 class="hto-step-title">納品</h3>
+            <p class="hto-step-desc">指定の納品先へお届けします。倉庫・イベント会場など、形態に応じて対応します。納品後に商品撮影が必要な場合は、撮影サービスもあわせてご利用いただけます。</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /full tab -->
+
+    <!-- ⑤ 過去制作事例 -->
+    <div class="hto-archive-section">
+      <div class="hto-inner">
+        <p class="page-archive-strip-label">過去制作事例</p>
+        <div class="page-archive-strip-scroll" style="padding:0">
+          <div class="page-archive-thumbs" id="page-archive-thumbs"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑥ CTA -->
+    <div class="hto-cta">
+      <div class="hto-inner" style="text-align:center">
+        <p class="hto-cta-label">Contact</p>
+        <p class="hto-cta-text">まずはご要件をお気軽にお知らせください。<br>アイテム・数量・納期が未定の段階でも対応可能です。</p>
+        <a href="contact.html" class="hto-cta-btn">お問い合わせ</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">
+            <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+          </div>
+          <p class="footer-tagline">300枚から3万枚まで、<br>変わらぬ精度で。<br>デザイン〜製造〜納品を一括対応。</p>
+        </div>
+        <div>
+          <p class="footer-nav-title">Service</p>
+          <ul class="footer-nav-list">
+            <li><a href="how-to-order.html">ご注文の流れ</a></li>
+            <li><a href="design.html">デザイン制作と入稿方法</a></li>
+            <li><a href="what-we-can-do.html">何ができる？</a></li>
+            <li><a href="factory.html">提携工場</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-nav-title">Company</p>
+          <ul class="footer-nav-list">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2025 Like a Canvas / 株式会社Aoi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 過去制作事例サムネイル
+      const thumbs = document.getElementById('page-archive-thumbs');
+      PRODUCTS.forEach(p => {
+        const a = document.createElement('a');
+        a.href = `../product.html?id=${p.slug}`;
+        a.className = 'page-archive-thumb';
+        a.innerHTML = `<img src="../assets/images/${p.images[0]}" alt="${p.title}" loading="lazy">`;
+        thumbs.appendChild(a);
+      });
+
+      // タブ切り替え
+      const tabs = document.querySelectorAll('.hto-tab');
+      const contents = document.querySelectorAll('.hto-tab-content');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.tab;
+
+          tabs.forEach(t => t.classList.remove('active'));
+          contents.forEach(c => c.classList.remove('active'));
+
+          tab.classList.add('active');
+          document.querySelector(`.hto-tab-content[data-tab="${target}"]`).classList.add('active');
+
+          // タイムラインのアンカーを更新
+          if (target === 'full') {
+            document.querySelector('.hto-timeline a[href="#step-01"]')?.setAttribute('href', '#step-01-full');
+          } else {
+            document.querySelector('.hto-timeline a[href="#step-01-full"]')?.setAttribute('href', '#step-01');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

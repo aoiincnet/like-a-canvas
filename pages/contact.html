@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お問い合わせ — Like a Canvas</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    [data-fade] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    [data-fade].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== CONTACT FORM ===== */
+    .cf-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .cf-step {
+      display: none;
+    }
+    .cf-step.active {
+      display: block;
+    }
+
+    .cf-section-label {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--color-gray-mid);
+      margin-bottom: 20px;
+    }
+
+    .cf-track-select {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-bottom: 32px;
+    }
+
+    .cf-track-btn {
+      padding: 24px 20px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      text-align: left;
+      position: relative;
+      transition: opacity 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    .cf-track-btn--a {
+      background: #f5efe6;
+    }
+    .cf-track-btn--b {
+      background: #2a2a2a;
+      color: #fff;
+    }
+    .cf-track-btn:not(.selected) {
+      opacity: 0.42;
+    }
+    .cf-track-btn:not(.selected):hover {
+      opacity: 0.72;
+      transform: scale(1.01);
+    }
+    .cf-track-btn.selected {
+      opacity: 1;
+    }
+    .cf-track-btn--a.selected {
+      border-color: #a07850;
+    }
+    .cf-track-btn--b.selected {
+      border-color: rgba(255,255,255,0.45);
+    }
+    .cf-track-btn.selected::after {
+      content: '✓ Selected';
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-family: var(--font-heading);
+      font-size: 8px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .cf-track-btn--a.selected::after {
+      color: #a07850;
+    }
+    .cf-track-btn--b.selected::after {
+      color: rgba(255,255,255,0.5);
+    }
+    .cf-track-btn-type {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: #a07850;
+    }
+    .cf-track-btn--b .cf-track-btn-type {
+      color: rgba(255,255,255,0.45);
+    }
+    .cf-track-btn-title {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .cf-track-btn--b .cf-track-btn-title {
+      color: #fff;
+    }
+    .cf-track-btn-desc {
+      display: block;
+      font-size: 11px;
+      line-height: 1.6;
+      color: #666;
+    }
+    .cf-track-btn--b .cf-track-btn-desc {
+      color: rgba(255,255,255,0.55);
+    }
+
+    .cf-row {
+      margin-bottom: 24px;
+    }
+
+    .cf-label {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .cf-required {
+      color: #c0392b;
+      margin-left: 4px;
+    }
+
+    .cf-input,
+    .cf-textarea,
+    .cf-select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 0;
+      font-family: var(--font-body);
+      font-size: 14px;
+      background: #fff;
+      appearance: none;
+      transition: border-color 0.2s;
+    }
+
+    .cf-input:focus,
+    .cf-textarea:focus,
+    .cf-select:focus {
+      outline: none;
+      border-color: #1a1a1a;
+    }
+
+    .cf-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .cf-radio-group,
+    .cf-check-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cf-radio-group.inline,
+    .cf-check-group.inline {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .cf-radio-label,
+    .cf-check-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      cursor: pointer;
+      line-height: 1.5;
+    }
+
+    .cf-radio-label input,
+    .cf-check-label input {
+      accent-color: #1a1a1a;
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+
+    .cf-inline-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .cf-divider {
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      margin: 32px 0;
+    }
+
+    .cf-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .cf-btn-next,
+    .cf-btn-back,
+    .cf-btn-submit {
+      font-family: var(--font-heading);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 14px 36px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .cf-btn-next,
+    .cf-btn-submit {
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    .cf-btn-back {
+      background: transparent;
+      color: #999;
+      padding-left: 0;
+    }
+
+    .cf-btn-next:hover,
+    .cf-btn-submit:hover { opacity: 0.75; }
+
+    .cf-progress {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 32px;
+    }
+
+    .cf-progress-dot {
+      width: 24px;
+      height: 2px;
+      background: rgba(0,0,0,0.12);
+      transition: background 0.3s;
+    }
+
+    .cf-progress-dot.active {
+      background: #1a1a1a;
+    }
+
+    .cf-confirm-check {
+      margin-top: 24px;
+    }
+
+    .cf-success {
+      text-align: center;
+      padding: 60px 0;
+    }
+
+    .cf-success-title {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    .cf-success-text {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .cf-note {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #888;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 767px) {
+      .cf-track-select { grid-template-columns: 1fr; }
+      .cf-inline-fields { grid-template-columns: 1fr; }
+      .cf-radio-group.inline { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../index.html" class="navbar-logo">
+        <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+      </a>
+      <ul class="nav-menu">
+        <li><a href="../index.html#archives">制作実績</a></li>
+        <li><a href="factory.html">提携工場</a></li>
+        <li><a href="what-we-can-do.html">何ができる？</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" class="nav-contact-btn">お問い合わせ</a></li>
+      </ul>
+      <button class="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <button class="mobile-menu-close" aria-label="閉じる">×</button>
+    <a href="../index.html#archives">制作実績</a>
+    <a href="factory.html">提携工場</a>
+    <a href="what-we-can-do.html">何ができる？</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">お問い合わせ</a>
+  </div>
+
+  <main class="product-main info-page-main">
+    <div class="about-content">
+
+      <div class="about-header" data-fade>
+        <p class="section-label">Contact</p>
+        <h1 class="about-heading">お問い合わせ</h1>
+        <p class="about-tagline">アイテム・数量・納期・ご予算が未定の段階でも対応可能です。<br>まずはご要件をお聞かせください。</p>
+      </div>
+
+      <!-- フォーム本体 -->
+      <div class="cf-wrap" data-fade>
+
+        <!-- プログレスバー -->
+        <div class="cf-progress" id="cf-progress">
+          <div class="cf-progress-dot active"></div>
+          <div class="cf-progress-dot"></div>
+          <div class="cf-progress-dot"></div>
+        </div>
+
+        <form id="cf-form" action="https://formspree.io/f/xjgjnajo" method="POST">
+
+          <!-- STEP 1: 基本情報 -->
+          <div class="cf-step active" data-step="1">
+            <p class="cf-section-label">Step 1 — Basic Info</p>
+
+            <div class="cf-inline-fields">
+              <div class="cf-row">
+                <label class="cf-label" for="cf-name">お名前 <span class="cf-required">*</span></label>
+                <input class="cf-input" type="text" id="cf-name" name="name" required>
+              </div>
+              <div class="cf-row">
+                <label class="cf-label" for="cf-email">メールアドレス <span class="cf-required">*</span></label>
+                <input class="cf-input" type="email" id="cf-email" name="email" required>
+              </div>
+            </div>
+
+            <div class="cf-inline-fields">
+              <div class="cf-row">
+                <label class="cf-label" for="cf-tel">電話番号</label>
+                <input class="cf-input" type="tel" id="cf-tel" name="tel">
+              </div>
+              <div class="cf-row">
+                <label class="cf-label" for="cf-company">会社名・団体名</label>
+                <input class="cf-input" type="text" id="cf-company" name="company">
+              </div>
+            </div>
+
+            <div class="cf-row">
+              <label class="cf-label" for="cf-website">ウェブサイト・SNS URL</label>
+              <input class="cf-input" type="url" id="cf-website" name="website" placeholder="https://example.com / https://instagram.com/...">
+            </div>
+
+            <hr class="cf-divider">
+
+            <div class="cf-row">
+              <label class="cf-label">ご希望の制作タイプ <span class="cf-required">*</span></label>
+              <div class="cf-track-select">
+                <button type="button" class="cf-track-btn cf-track-btn--a selected" data-track="custom">
+                  <span class="cf-track-btn-title">カスタムプリント</span>
+                  <span class="cf-track-btn-desc">既製品・既存アイテムに、プリントや刺繍などの加工を施す。</span>
+                </button>
+                <button type="button" class="cf-track-btn cf-track-btn--b" data-track="full">
+                  <span class="cf-track-btn-title">フルオーダー</span>
+                  <span class="cf-track-btn-desc">素材・形・仕様から相談して、オリジナルアイテムを製作する。</span>
+                </button>
+              </div>
+              <input type="hidden" name="track" id="cf-track-val" value="カスタムプリント">
+            </div>
+
+            <div class="cf-nav">
+              <span></span>
+              <button type="button" class="cf-btn-next" id="cf-next-1">Next →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2A: カスタムプリント詳細 -->
+          <div class="cf-step" data-step="2" data-for="custom">
+            <p class="cf-section-label">Step 2 — Custom Print Details</p>
+
+            <div class="cf-row">
+              <label class="cf-label">アイテムの種類（複数選択可）</label>
+              <div class="cf-check-group">
+                <label class="cf-check-label"><input type="checkbox" name="item_type[]" value="アパレルアイテム（Tシャツ・スウェット・ユニフォームなど）"> アパレルアイテム（Tシャツ・スウェット・ユニフォームなど）</label>
+                <label class="cf-check-label"><input type="checkbox" name="item_type[]" value="バッグアイテム（トートバッグ・ポーチ・サコッシュなど）"> バッグアイテム（トートバッグ・ポーチ・サコッシュなど）</label>
+                <label class="cf-check-label"><input type="checkbox" name="item_type[]" value="モバイルアイテム（充電器・モバイルバッテリー・携帯スタンドなど）"> モバイルアイテム（充電器・モバイルバッテリー・携帯スタンドなど）</label>
+                <label class="cf-check-label"><input type="checkbox" name="item_type[]" value="キッチンアイテム（タンブラー・マグカップ・ランチボックスなど）"> キッチンアイテム（タンブラー・マグカップ・ランチボックスなど）</label>
+                <label class="cf-check-label"><input type="checkbox" name="item_type[]" value="その他"> その他</label>
+              </div>
+            </div>
+
+            <div class="cf-row">
+              <label class="cf-label">プリント・刺繍に使用するロゴやデザインデータはご用意済みですか？</label>
+              <div class="cf-radio-group">
+                <label class="cf-radio-label"><input type="radio" name="design_data" value="既に用意済み（入稿可能なデータがある）"> 既に用意済み（入稿可能なデータがある）</label>
+                <label class="cf-radio-label"><input type="radio" name="design_data" value="ロゴや画像素材はあるが、入稿用の調整が必要"> ロゴや画像素材はあるが、入稿用の調整が必要</label>
+                <label class="cf-radio-label"><input type="radio" name="design_data" value="これから制作する必要がある"> これから制作する必要がある</label>
+              </div>
+              <p class="cf-note">※ロゴ・イラスト・文字組みなどのグラフィックデータは、基本的にご支給をお願いしております。新規でのグラフィックデザイン制作をご希望の場合は、内容に応じて別途制作費と制作期間をいただく場合がございます。</p>
+            </div>
+
+            <div class="cf-row">
+              <label class="cf-label">ご希望の加工方法（複数選択可）</label>
+              <div class="cf-check-group">
+                <label class="cf-check-label"><input type="checkbox" name="process[]" value="シルクスクリーン印刷（単色ロゴなどに）"> シルクスクリーン印刷（単色ロゴなどに）</label>
+                <label class="cf-check-label"><input type="checkbox" name="process[]" value="インクジェット印刷（フルカラーや写真の印刷などに）"> インクジェット印刷（フルカラーや写真の印刷などに）</label>
+                <label class="cf-check-label"><input type="checkbox" name="process[]" value="刺繍（ワンポイントのアクセントに）"> 刺繍（ワンポイントのアクセントに）</label>
+                <label class="cf-check-label"><input type="checkbox" name="process[]" value="転写・昇華プリント"> 転写・昇華プリント</label>
+                <label class="cf-check-label"><input type="checkbox" name="process[]" value="未定・相談したい"> 未定・相談したい</label>
+              </div>
+            </div>
+
+            <div class="cf-row">
+              <label class="cf-label">ご希望の数量</label>
+              <div class="cf-radio-group inline">
+                <label class="cf-radio-label"><input type="radio" name="quantity" value="50〜100枚"> 50〜100枚</label>
+                <label class="cf-radio-label"><input type="radio" name="quantity" value="101〜300枚"> 101〜300枚</label>
+                <label class="cf-radio-label"><input type="radio" name="quantity" value="301〜500枚"> 301〜500枚</label>
+                <label class="cf-radio-label"><input type="radio" name="quantity" value="501〜1,000枚"> 501〜1,000枚</label>
+                <label class="cf-radio-label"><input type="radio" name="quantity" value="1,001枚以上"> 1,001枚以上</label>
+              </div>
+            </div>
+
+            <div class="cf-row">
+              <label class="cf-label">ご希望の納期</label>
+              <div class="cf-radio-group inline">
+                <label class="cf-radio-label"><input type="radio" name="deadline" value="1ヶ月以内"> 1ヶ月以内</label>
+                <label class="cf-radio-label"><input type="radio" name="deadline" value="1〜2ヶ月以内"> 1〜2ヶ月以内</label>
+                <label class="cf-radio-label"><input type="radio" name="deadline" value="納期未定（相談したい）"> 納期未定（相談したい）</label>
+              </div>
+            </div>
+
+            <div class="cf-nav">
+              <button type="button" class="cf-btn-back" data-back="1">← Back</button>
+              <button type="button" class="cf-btn-next" data-next="3">Next →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2B: フルオーダー詳細 -->
+          <div class="cf-step" data-step="2" data-for="full">
+            <p class="cf-section-label">Step 2 — Full Order Details</p>
+
+            <div class="cf-row">
+              <label class="cf-label" for="cf-item-desc">ご希望の製作アイテムの種類を教えてください。</label>
+              <input class="cf-input" type="text" id="cf-item-desc" name="item_description" placeholder="例：オリジナルバッグ、ポーチ、キャップ、アパレルアイテム、雑貨アイテムなど">
+            </div>
+
+            <div class="cf-row">
+              <label class="cf-label" for="cf-spec">アイテムの仕様に関するご要望がありましたら、教えてください。</label>
+              <textarea class="cf-textarea" id="cf-spec" name="spec_requirements" placeholder="素材、形状、色、サイズ感、参考アイテムなど、イメージをお聞かせください。"></textarea>
+              <p class="cf-note">※アイテム本体の形状・素材・仕様については、内容に応じてご提案可能です。ロゴ・イラストなどの新規グラフィックデザイン制作をご希望の場合は、別途制作費と制作期間をいただく場合がございます。</p>
+            </div>
+
+            <div class="cf-row">
+              <label class="cf-label">ご希望の数量</label>
+              <div class="cf-radio-group inline">
+                <label class="cf-radio-label"><input type="radio" name="quantity" value="301〜500枚"> 301〜500枚</label>
+                <label class="cf-radio-label"><input type="radio" name="quantity" value="501〜1,000枚"> 501〜1,000枚</label>
+                <label class="cf-radio-label"><input type="radio" name="quantity" value="1,001枚以上"> 1,001枚以上</label>
+              </div>
+            </div>
+
+            <div class="cf-row">
+              <label class="cf-label">ご希望の納期</label>
+              <div class="cf-radio-group inline">
+                <label class="cf-radio-label"><input type="radio" name="deadline" value="1〜2ヶ月以内"> 1〜2ヶ月以内</label>
+                <label class="cf-radio-label"><input type="radio" name="deadline" value="2〜3ヶ月以内"> 2〜3ヶ月以内</label>
+                <label class="cf-radio-label"><input type="radio" name="deadline" value="納期未定（相談したい）"> 納期未定（相談したい）</label>
+              </div>
+              <p class="cf-note">※フルオーダーは仕様や製作内容によって納期が変動します。お急ぎの場合は、航空便などの手配により費用が上がる場合がございます。</p>
+            </div>
+
+            <div class="cf-row">
+              <label class="cf-label">オプションサービス（複数選択可）</label>
+              <div class="cf-check-group">
+                <label class="cf-check-label"><input type="checkbox" name="options[]" value="オリジナルパッケージの制作（外箱や梱包袋を制作）"> オリジナルパッケージの制作（外箱や梱包袋を制作）</label>
+                <label class="cf-check-label"><input type="checkbox" name="options[]" value="オリジナルブランドネームタグの制作"> オリジナルブランドネームタグの制作</label>
+                <label class="cf-check-label"><input type="checkbox" name="options[]" value="SNS、ウェブストア用の商品写真の撮影"> SNS、ウェブストア用の商品写真の撮影</label>
+                <label class="cf-check-label"><input type="checkbox" name="options[]" value="倉庫納品・仕分け対応"> 倉庫納品・仕分け対応</label>
+              </div>
+            </div>
+
+            <div class="cf-row">
+              <label class="cf-label" for="cf-ref-url">参考資料URL</label>
+              <input class="cf-input" type="url" id="cf-ref-url" name="reference_url" placeholder="https://...">
+            </div>
+
+            <div class="cf-nav">
+              <button type="button" class="cf-btn-back" data-back="1">← Back</button>
+              <button type="button" class="cf-btn-next" data-next="3">Next →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3: 最終確認 -->
+          <div class="cf-step" data-step="3">
+            <p class="cf-section-label">Step 3 — Message & Confirm</p>
+
+            <div class="cf-row">
+              <label class="cf-label" for="cf-message">お問い合わせ内容・補足 <span class="cf-required">*</span></label>
+              <textarea class="cf-textarea" id="cf-message" name="message" placeholder="ご要件・ご要望をご記入ください。" required style="min-height:160px;"></textarea>
+            </div>
+
+            <div class="cf-row">
+              <label class="cf-label" for="cf-special">特別なご要望・備考</label>
+              <textarea class="cf-textarea" id="cf-special" name="special_requests" placeholder="納品先・梱包仕様・他にご要望があればご記入ください。"></textarea>
+            </div>
+
+            <div class="cf-confirm-check">
+              <label class="cf-check-label">
+                <input type="checkbox" name="confirmed" value="同意する" required>
+                送信内容を確認し、2営業日以内に返信があることを了承しました。
+              </label>
+            </div>
+
+            <div class="cf-nav">
+              <button type="button" class="cf-btn-back" id="cf-back-3">← Back</button>
+              <button type="submit" class="cf-btn-submit">送信する</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- 過去制作事例 -->
+      <div class="about-archive-strip" data-fade>
+        <p class="page-archive-strip-label">過去制作事例</p>
+        <div class="page-archive-strip-scroll">
+          <div class="page-archive-thumbs" id="page-archive-thumbs"></div>
+        </div>
+      </div>
+
+      <!-- 直接連絡先 -->
+      <div class="about-company" data-fade>
+        <h2 class="about-section-title">Direct Contact</h2>
+        <table class="about-table">
+          <tr>
+            <th>メール</th>
+            <td>info@likeacanvas.com</td>
+          </tr>
+          <tr>
+            <th>所在地</th>
+            <td>〒104-0061 東京都中央区銀座1丁目28-15<br>鈴木ビル 3B</td>
+          </tr>
+          <tr>
+            <th>受付時間</th>
+            <td>平日 10:00〜18:00</td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">
+            <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+          </div>
+          <p class="footer-tagline">300枚から3万枚まで、<br>変わらぬ精度で。<br>デザイン〜製造〜納品を一括対応。</p>
+        </div>
+        <div>
+          <p class="footer-nav-title">Service</p>
+          <ul class="footer-nav-list">            <li><a href="what-we-can-do.html">何ができる？</a></li>
+            <li><a href="factory.html">提携工場</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-nav-title">Company</p>
+          <ul class="footer-nav-list">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2025 Like a Canvas / 株式会社Aoi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 過去制作事例サムネイル
+      const thumbs = document.getElementById('page-archive-thumbs');
+      PRODUCTS.forEach(p => {
+        const a = document.createElement('a');
+        a.href = `../product.html?id=${p.slug}`;
+        a.className = 'page-archive-thumb';
+        a.innerHTML = `<img src="../assets/images/${p.images[0]}" alt="${p.title}" loading="lazy">`;
+        thumbs.appendChild(a);
+      });
+
+      // ===== MULTI-STEP FORM =====
+      let currentTrack = 'custom';
+
+      const steps = document.querySelectorAll('.cf-step');
+      const progressDots = document.querySelectorAll('.cf-progress-dot');
+
+      function showStep(stepNum, track) {
+        steps.forEach(s => s.classList.remove('active'));
+
+        if (stepNum === 1) {
+          document.querySelector('.cf-step[data-step="1"]').classList.add('active');
+          setProgress(0);
+        } else if (stepNum === 2) {
+          const target = document.querySelector(`.cf-step[data-step="2"][data-for="${track}"]`);
+          if (target) target.classList.add('active');
+          setProgress(1);
+        } else if (stepNum === 3) {
+          document.querySelector('.cf-step[data-step="3"]').classList.add('active');
+          setProgress(2);
+        }
+      }
+
+      function setProgress(index) {
+        progressDots.forEach((d, i) => {
+          d.classList.toggle('active', i <= index);
+        });
+      }
+
+      // トラック選択ボタン
+      document.querySelectorAll('.cf-track-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentTrack = btn.dataset.track;
+          document.querySelectorAll('.cf-track-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          document.getElementById('cf-track-val').value =
+            currentTrack === 'custom' ? 'カスタムプリント' : 'フルオーダー';
+        });
+      });
+
+      // Step 1 → Step 2
+      document.getElementById('cf-next-1').addEventListener('click', () => {
+        const name = document.getElementById('cf-name');
+        const email = document.getElementById('cf-email');
+        if (!name.value.trim() || !email.value.trim()) {
+          name.reportValidity();
+          email.reportValidity();
+          return;
+        }
+        showStep(2, currentTrack);
+      });
+
+      // Step 2 → Step 3
+      document.querySelectorAll('.cf-btn-next[data-next="3"]').forEach(btn => {
+        btn.addEventListener('click', () => showStep(3, currentTrack));
+      });
+
+      // Back buttons
+      document.querySelectorAll('.cf-btn-back[data-back="1"]').forEach(btn => {
+        btn.addEventListener('click', () => showStep(1, currentTrack));
+      });
+      document.getElementById('cf-back-3').addEventListener('click', () => {
+        showStep(2, currentTrack);
+      });
+    });
+  </script>
+</body>
+</html>

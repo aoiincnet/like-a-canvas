@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — Like a Canvas</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    [data-fade] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    [data-fade].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =============================================
+       1. ABOUT HERO — イメージセクション
+       ============================================= */
+    .about-hero {
+      position: relative;
+      aspect-ratio: 16 / 6;   /* wwcd / factory と同じ高さ */
+      overflow: hidden;
+      /* about-content の padding (48px top, 32px sides) を打ち消して全幅に */
+      margin: -48px -32px 52px;
+    }
+    .about-hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* 左側が暗くなるグラデーション（テキストは左寄せ） */
+    .about-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(0,0,0,0.72) 0%,
+        rgba(0,0,0,0.48) 42%,
+        rgba(0,0,0,0.08) 100%
+      );
+    }
+    .about-hero-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0 52px;
+      text-align: left;
+    }
+    .about-hero-label {
+      font-family: var(--font-heading);
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 10px;
+    }
+    .about-hero-heading {
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 200;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1.0;
+      margin-bottom: 16px;
+    }
+    /* タグライン：Yu Mincho系で統一 */
+    .about-hero-tagline {
+      font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "Noto Serif JP", serif;
+      font-size: clamp(14px, 1.7vw, 22px);
+      font-weight: 400;
+      color: rgba(255,255,255,0.92);
+      line-height: 1.8;
+      letter-spacing: 0.05em;
+    }
+
+    /* フィロソフィー 小見出し */
+    .about-philosophy-lead {
+      font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "Noto Serif JP", serif;
+      font-size: clamp(12px, 1.15vw, 15px);
+      font-weight: 700;
+      color: var(--color-black);
+      line-height: 1.75;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+
+    /* =============================================
+       2. 数字セクション — border-bottom追加、余白調整
+       ============================================= */
+    /* philosophy から上線まで少し距離を置く */
+    .about-philosophy {
+      margin-bottom: 28px !important;
+      padding-bottom: 0 !important;
+      border-bottom: none !important;
+    }
+    /* 上線・下線と縦仕切りの間に隙間を作る */
+    .about-numbers {
+      margin-top: 0 !important;
+      margin-bottom: 52px !important;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      background: transparent !important;
+      padding: 14px 0 !important;
+      gap: 0 !important;
+    }
+    /* 縦仕切りは border-left で表現、上下に余白を持たせて浮いた印象に */
+    .about-number-item {
+      padding: 20px 20px !important;
+      justify-content: center !important;
+      border-right: 1px solid rgba(0,0,0,0.08);
+    }
+    .about-number-item:last-child {
+      border-right: none;
+    }
+
+    /* =============================================
+       3. 鈴木ビル写真 3枚
+       ============================================= */
+    .about-building {
+      margin-bottom: 52px;
+    }
+    /* デスクトップ：3カラムグリッド */
+    .about-building-track {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+    .about-building-item {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #d8d8d8;
+    }
+    .about-building-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.55s ease;
+    }
+    .about-building-item:hover img {
+      transform: scale(1.04);
+    }
+    /* キャプション：ホバー時に浮上 */
+    .about-building-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 14px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.52));
+      font-family: var(--font-heading);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .about-building-item:hover .about-building-caption {
+      opacity: 1;
+    }
+
+    /* モバイル：スワイプスライダー */
+    @media (max-width: 767px) {
+      .about-hero {
+        margin: -48px -32px 40px;
+        aspect-ratio: 4 / 3;
+      }
+      /* モバイルは下から暗くして左寄せテキストを読みやすく */
+      .about-hero-overlay {
+        background: linear-gradient(
+          to top,
+          rgba(0,0,0,0.75) 0%,
+          rgba(0,0,0,0.42) 45%,
+          rgba(0,0,0,0.08) 100%
+        );
+      }
+      .about-hero-content {
+        justify-content: flex-end;
+        align-items: flex-start;
+        padding: 0 20px 32px;
+        text-align: left;
+      }
+
+      .about-building {
+        /* サイドパディングを外してスライダーをフルブリードに */
+        margin-left: -32px;
+        margin-right: -32px;
+      }
+      .about-building-track {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        gap: 6px;
+        padding: 0 32px;
+      }
+      .about-building-track::-webkit-scrollbar { display: none; }
+      .about-building-item {
+        flex: 0 0 80vw;
+        scroll-snap-align: center;
+        aspect-ratio: 4 / 3;
+      }
+      /* モバイルではキャプション常時表示 */
+      .about-building-caption { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../index.html" class="navbar-logo">
+        <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+      </a>
+      <ul class="nav-menu">
+        <li><a href="../index.html#archives">制作実績</a></li>
+        <li><a href="factory.html">提携工場</a></li>
+        <li><a href="what-we-can-do.html">何ができる？</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" class="nav-contact-btn">お問い合わせ</a></li>
+      </ul>
+      <button class="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- モバイルメニュー -->
+  <div class="mobile-menu">
+    <button class="mobile-menu-close" aria-label="閉じる">×</button>
+    <a href="../index.html#archives">制作実績</a>
+    <a href="factory.html">提携工場</a>
+    <a href="what-we-can-do.html">何ができる？</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">お問い合わせ</a>
+  </div>
+
+  <main class="product-main info-page-main">
+    <div class="about-content">
+
+      <!-- 1. HERO IMAGE SECTION -->
+      <div class="about-hero">
+        <img
+          class="about-hero-bg"
+          src="../assets/images/about-hero-live-goods.jpg"
+          alt="ライブグッズ制作現場"
+          loading="eager"
+        >
+        <div class="about-hero-overlay"></div>
+        <div class="about-hero-content">
+          <p class="about-hero-label">About Us</p>
+          <h1 class="about-hero-heading">Like a Canvas</h1>
+          <p class="about-hero-tagline">300枚から3万枚まで、<br>変わらぬ精度で。</p>
+        </div>
+      </div>
+
+      <!-- フィロソフィー -->
+      <div class="about-philosophy" data-fade>
+        <p class="about-philosophy-lead">企画・製造・納品まで、体験を手元に残すものづくり。</p>
+        <div class="about-philosophy-body">
+          <p>株式会社Aoiは、OEMグッズの企画・製造・納品を一括で手がけ、アパレル、雑貨、パッケージ、ノベルティなど、用途に応じたアイテム制作に対応しています。<br>デザインの提案から、国内外の工場との直接交渉、品質管理、輸入物流まで、すべての工程を自社で管理することで、発注者の負担を最小化します。<br>「Like a Canvas」という名称には、白紙のキャンバスに向き合うように、依頼者のアイデアをゼロから形にするという意味を込めています。<br>グッズ制作に関わるすべての工程において、同一のチームが一貫して関与することで、仕様や品質の精度を保ちます。</p>
+        </div>
+        <blockquote class="about-quote">
+          ライブグッズは、音楽体験を<br>一緒に持ち帰ってもらえるもの。
+        </blockquote>
+        <div class="about-philosophy-body">
+          <p>コンサートグッズの制作においては、アパレルを中心に多数の実績を持ちます。グッズは単なる物品ではなく、イベントの体験と結びついた記憶の媒体として機能します。ファッションと音楽の関係性が密接な現代において、素材・デザイン・品質の三点が揃って初めて、その価値が成立すると考えています。</p>
+        </div>
+      </div>
+
+      <!-- 2. 数字セクション -->
+      <div class="about-numbers" data-fade>
+        <div class="about-number-item">
+          <span class="about-number-value">300</span>
+          <span class="about-number-unit">枚〜</span>
+          <span class="about-number-label">最小ロット</span>
+        </div>
+        <div class="about-number-item">
+          <span class="about-number-value">30,000</span>
+          <span class="about-number-unit">枚〜</span>
+          <span class="about-number-label">大ロット対応</span>
+        </div>
+        <div class="about-number-item">
+          <span class="about-number-value">1</span>
+          <span class="about-number-unit">社で</span>
+          <span class="about-number-label">全工程完結</span>
+        </div>
+      </div>
+
+      <!-- 3. 鈴木ビル写真 3枚（PC: グリッド / SP: スライダー） -->
+      <div class="about-building" data-fade>
+        <div class="about-building-track">
+          <div class="about-building-item">
+            <img src="../assets/images/suzuki-building-exterior.jpg" alt="鈴木ビル 外観" loading="lazy">
+            <span class="about-building-caption">Exterior</span>
+          </div>
+          <div class="about-building-item">
+            <img src="../assets/images/suzuki-building-interior.jpg" alt="鈴木ビル 内観" loading="lazy">
+            <span class="about-building-caption">Interior</span>
+          </div>
+          <div class="about-building-item">
+            <img src="../assets/images/suzuki-building-detail.jpg" alt="鈴木ビル ディテール" loading="lazy">
+            <span class="about-building-caption">Detail</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Our Place -->
+      <div class="about-place" data-fade>
+        <h2 class="about-section-title">Our Place</h2>
+        <div class="about-place-body">
+          <p>拠点は、東京都中央区銀座1丁目に位置する<strong>鈴木ビル</strong>。1929年竣工、アールデコ様式の外装を持つこの建物は、東京都指定歴史的建造物に選定されています。</p>
+          <p>1939年、国際グラフ誌『NIPPON』を制作した<strong>日本工房</strong>がこのビルに移転しています。日本工房は、ドイツで報道写真を学んだ名取洋之助を中心に1933年に組織された制作集団で、写真・グラフィック・編集を横断するビジュアルコミュニケーションの手法を確立しました。<br>1964年東京オリンピックのポスターで知られる<strong>グラフィックデザイナー・亀倉雄策</strong>も、この場所を拠点に活動したひとりです。</p>
+          <p>日本のクリエイティブの原点ともいえる場所で、株式会社AoiはOEMグッズ制作を通じた新しいものづくりの実践を続けています。</p>
+        </div>
+      </div>
+
+      <!-- Company -->
+      <div class="about-company" data-fade>
+        <h2 class="about-section-title">Company</h2>
+        <table class="about-table">
+          <tr>
+            <th>社名</th>
+            <td>株式会社Aoi</td>
+          </tr>
+          <tr>
+            <th>所在地</th>
+            <td>〒104-0061 東京都中央区銀座1丁目28-15<br>鈴木ビル 3B</td>
+          </tr>
+          <tr>
+            <th>事業内容</th>
+            <td>OEMグッズ制作（デザイン〜製造〜納品の一括対応）</td>
+          </tr>
+          <tr>
+            <th>対応ロット</th>
+            <td>300枚〜（大ロット30,000枚以上の実績あり）</td>
+          </tr>
+          <tr>
+            <th>対応サービス</th>
+            <td>カスタムプリント / フルオーダーアイテム / パッケージング / 商品撮影</td>
+          </tr>
+          <tr>
+            <th>物流対応</th>
+            <td>船便（コンテナ20ft/40ft対応）/ 航空便 / 混載便 — 納品日・納品数・予算に応じて最適な手配</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- 過去制作事例 -->
+      <div class="about-archive-strip" data-fade>
+        <p class="page-archive-strip-label">過去制作事例</p>
+        <div class="page-archive-strip-scroll">
+          <div class="page-archive-thumbs" id="page-archive-thumbs"></div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="about-cta" data-fade>
+        <a href="contact.html" class="product-contact-btn">お問い合わせ</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">
+            <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+          </div>
+          <p class="footer-tagline">300枚から3万枚まで、<br>変わらぬ精度で。<br>デザイン〜製造〜納品を一括対応。</p>
+        </div>
+        <div>
+          <p class="footer-nav-title">Service</p>
+          <ul class="footer-nav-list">
+            <li><a href="what-we-can-do.html">何ができる？</a></li>
+            <li><a href="factory.html">提携工場</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-nav-title">Company</p>
+          <ul class="footer-nav-list">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2025 Like a Canvas / 株式会社Aoi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const thumbs = document.getElementById('page-archive-thumbs');
+      PRODUCTS.forEach(p => {
+        const a = document.createElement('a');
+        a.href = `../product.html?id=${p.slug}`;
+        a.className = 'page-archive-thumb';
+        a.innerHTML = `<img src="../assets/images/${p.images[0]}" alt="${p.title}" loading="lazy">`;
+        thumbs.appendChild(a);
+      });
+    });
+  </script>
+</body>
+</html>

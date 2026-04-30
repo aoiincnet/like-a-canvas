@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FACTORY NETWORK — Like a Canvas</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    [data-fade] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    [data-fade].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== FACTORY NETWORK ===== */
+
+    /* HERO — site-max幅、アスペクト比で高さ決定 */
+    .fn-hero {
+      margin-top: 77px;
+      padding: 0 var(--site-pad);
+      max-width: calc(var(--site-max) + var(--site-pad) * 2);
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .fn-hero-box {
+      position: relative;
+      aspect-ratio: 16 / 6;
+      overflow: hidden;
+    }
+    .fn-hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .fn-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(255,255,255,0.95) 0%,
+        rgba(255,255,255,0.88) 30%,
+        rgba(255,255,255,0.45) 58%,
+        rgba(255,255,255,0) 100%
+      );
+    }
+    .fn-hero-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+    }
+    .fn-hero-text { max-width: 420px; }
+    .fn-hero-eyebrow {
+      font-family: var(--font-heading);
+      font-size: 8px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #a07850;
+      margin-bottom: 8px;
+    }
+    .fn-hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 200;
+      line-height: 1.0;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-black);
+      margin-bottom: 6px;
+    }
+    .fn-hero-title-ja {
+      font-size: 11px;
+      color: var(--color-gray-dark);
+      margin-bottom: 18px;
+    }
+    .fn-hero-body {
+      font-size: 11px;
+      line-height: 2.0;
+      color: #555;
+    }
+
+    /* SECTION BASE */
+    .fn-sec {
+      padding: 52px 0;
+    }
+    .fn-sec--alt {
+      background: var(--color-gray);
+    }
+    .fn-sec-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+    }
+
+    /* SECTION HEADING */
+    .fn-sh {
+      margin-bottom: 22px;
+    }
+    .fn-sh-en {
+      font-family: var(--font-heading);
+      font-size: clamp(20px, 2.6vw, 30px);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .fn-sh-ja {
+      font-size: 11px;
+      color: var(--color-gray-dark);
+      margin-bottom: 8px;
+    }
+    .fn-sh-line {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #b08850;
+    }
+
+    /* SPLIT LAYOUT — text left, image right */
+    .fn-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .fn-img {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: #d8d8d8;
+    }
+    .fn-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .fn-ph {
+      width: 100%;
+      height: 100%;
+      background: #d8d8d8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fn-ph span {
+      font-family: var(--font-heading);
+      font-size: 8px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #aaa;
+      text-align: center;
+      padding: 16px;
+      line-height: 2;
+    }
+    .fn-text-body {
+      font-size: 13px;
+      line-height: 1.95;
+      color: var(--color-gray-dark);
+    }
+    .fn-text-body p + p { margin-top: 10px; }
+
+    /* REGIONAL STRENGTHS */
+    .fn-region-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .fn-region-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+    }
+    .fn-region-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1;
+      background: #d8d8d8;
+    }
+    .fn-region-card img,
+    .fn-region-card .fn-ph {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .fn-region-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 100%);
+    }
+    .fn-region-card-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 10px 10px;
+      font-family: var(--font-heading);
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-align: center;
+      color: #fff;
+      line-height: 1.4;
+    }
+
+    /* REGIONAL STRENGTHS (embedded in overseas) */
+    .fn-regional {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+    .fn-regional-heading {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-gray-mid);
+      margin-bottom: 8px;
+    }
+    .fn-regional-sub {
+      font-size: 12px;
+      line-height: 1.85;
+      color: var(--color-gray-dark);
+      margin-bottom: 14px;
+    }
+    .fn-regional-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .fn-regional-tag {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--color-black);
+      border: 1px solid rgba(0,0,0,0.22);
+      padding: 5px 12px;
+      white-space: nowrap;
+    }
+
+    /* LOGISTICS MAP IMAGE */
+    .fn-logistics-map {
+      margin-top: 28px;
+    }
+    .fn-logistics-map img {
+      width: 100%;
+      max-width: 480px;
+      display: block;
+    }
+
+    /* PLANNING COLLAGE — 3×2 squares */
+    .fn-collage {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+    .fn-collage-item {
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: #d8d8d8;
+    }
+    .fn-collage-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .fn-collage { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 767px) {
+      .fn-hero { padding: 0; }
+      .fn-hero-box { aspect-ratio: 3/2; }
+      .fn-hero-overlay {
+        background: linear-gradient(
+          to right,
+          rgba(0,0,0,0.72) 0%,
+          rgba(0,0,0,0.52) 55%,
+          rgba(0,0,0,0.18) 100%
+        );
+      }
+      .fn-hero-content { padding: 0 20px; }
+      .fn-hero-text { max-width: 100%; }
+      .fn-hero-eyebrow { color: rgba(255,255,255,0.6); }
+      .fn-hero-title { color: #fff; }
+      .fn-hero-title-ja { color: rgba(255,255,255,0.7); }
+      .fn-hero-body { color: rgba(255,255,255,0.75); font-size: 10px; }
+      .fn-split { grid-template-columns: 1fr; gap: 20px; }
+      .fn-region-cards { grid-template-columns: 1fr 1fr; }
+      .fn-collage { grid-template-columns: repeat(2, 1fr); }
+      .fn-sec { padding: 40px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../index.html" class="navbar-logo">
+        <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+      </a>
+      <ul class="nav-menu">
+        <li><a href="../index.html#archives">制作実績</a></li>
+        <li><a href="factory.html">提携工場</a></li>
+        <li><a href="what-we-can-do.html">何ができる？</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" class="nav-contact-btn">お問い合わせ</a></li>
+      </ul>
+      <button class="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <button class="mobile-menu-close" aria-label="閉じる">×</button>
+    <a href="../index.html#archives">制作実績</a>
+    <a href="factory.html">提携工場</a>
+    <a href="what-we-can-do.html">何ができる？</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">お問い合わせ</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="fn-hero">
+    <div class="fn-hero-box">
+      <video class="fn-hero-video" autoplay muted loop playsinline>
+        <source src="../assets/videos/hero3.mp4" type="video/mp4">
+      </video>
+      <div class="fn-hero-overlay"></div>
+      <div class="fn-hero-content">
+        <div class="fn-hero-text">
+          <p class="fn-hero-eyebrow">FACTORY NETWORK</p>
+          <h1 class="fn-hero-title">Factory<br>Network</h1>
+          <p class="fn-hero-title-ja">国内外の提携工場について</p>
+          <p class="fn-hero-body">Like a Canvasでは、国内外の提携工場と連携し、アイテムやロット、仕様、納期に応じて最適な生産背景を組み立てています。小ロットや短納期に対応しやすい国内工場と、スケールメリットや幅広い生産体制を持つ海外工場。それぞれの特性を活かしながら、企画からサンプル、量産、品質管理、納品まで一貫して対応しています。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 DOMESTIC FACTORIES -->
+  <section class="fn-sec" id="domestic" data-fade>
+    <div class="fn-sec-inner">
+      <div class="fn-split">
+        <div class="fn-text">
+          <div class="fn-sh">
+            <h2 class="fn-sh-en">Domestic Factories</h2>
+            <p class="fn-sh-ja">国内工場</p>
+            <span class="fn-sh-line"></span>
+          </div>
+          <div class="fn-text-body">
+            <p>国内工場では、小ロット案件や短納期案件、細かな仕様調整が必要なプロジェクトを中心に進行しています。</p>
+            <p>既製品をベースにしたカスタムや、サンプル作成、加工方法の検討など、お客様のご要望に合わせて柔軟に形にしていけることが特徴です。</p>
+            <p>ご希望の条件に応じて、アイテムの選定からご提案することも可能です。</p>
+          </div>
+        </div>
+        <div class="fn-img">
+          <!-- 差し替え：<img src="../assets/images/factory-domestic.jpg" alt="国内プリント・縫製現場" loading="lazy"> -->
+          <div class="fn-ph"><span>Domestic Factory<br>プリント / 縫製 / 検品</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 OVERSEAS FACTORIES + REGIONAL STRENGTHS -->
+  <section class="fn-sec fn-sec--alt" id="overseas" data-fade>
+    <div class="fn-sec-inner">
+      <div class="fn-split">
+        <div class="fn-img">
+          <!-- 差し替え：<img src="../assets/images/factory-overseas.jpg" alt="中国工場・量産ライン" loading="lazy"> -->
+          <div class="fn-ph"><span>Overseas Factory<br>中国工場 / 裁断 / 量産ライン</span></div>
+        </div>
+        <div class="fn-text">
+          <div class="fn-sh">
+            <h2 class="fn-sh-en">Overseas Factories</h2>
+            <p class="fn-sh-ja">海外工場</p>
+            <span class="fn-sh-line"></span>
+          </div>
+          <div class="fn-text-body">
+            <p>海外工場は、主に中国を拠点とした生産ネットワークを活用しています。</p>
+            <p>大きな強みは、地域ごとに得意分野を持つ工場や関連産業が集積しており、生地・副資材・裁断・縫製・加工・検品までを一連の流れとして組み立てやすいことです。</p>
+            <p>スケールメリットを活かした量産対応や、国内では対応しづらい仕様にも、案件ごとに適した生産背景を選定しながら対応しています。</p>
+          </div>
+          <div class="fn-regional">
+            <p class="fn-regional-heading">Regional Strengths — 地域ごとの得意分野</p>
+            <p class="fn-regional-sub">中国の工場は、地域や工場ごとに得意とするアイテムが異なります。案件ごとに求められる品質、数量、コスト、納期を踏まえながら、最適な生産先を選定しています。</p>
+            <div class="fn-regional-tags">
+              <span class="fn-regional-tag">カットソー / アパレル</span>
+              <span class="fn-regional-tag">傘 / レインアイテム</span>
+              <span class="fn-regional-tag">バッグ / 小物</span>
+              <span class="fn-regional-tag">アクセサリー</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 LOCAL SUPPORT -->
+  <section class="fn-sec fn-sec--alt" id="local-support" data-fade>
+    <div class="fn-sec-inner">
+      <div class="fn-split">
+        <div class="fn-text">
+          <div class="fn-sh">
+            <h2 class="fn-sh-en">Local Support</h2>
+            <p class="fn-sh-ja">現地スタッフによるサポート</p>
+            <span class="fn-sh-line"></span>
+          </div>
+          <div class="fn-text-body">
+            <p>中国現地にはスタッフが常駐し、工場とのやりとりやサンプル確認、量産時の進行確認をサポートしています。</p>
+            <p>言語や距離による認識のズレを減らし、現地の状況を確認しながらプロジェクトを進められることも、私たちの強みです。</p>
+            <p>海外生産で見えづらくなりがちな工程も、現地と連携しながら整理して進行します。</p>
+          </div>
+        </div>
+        <div class="fn-img">
+          <!-- 差し替え：<img src="../assets/images/factory-local-support.jpg" alt="現地工場訪問・サンプル確認" loading="lazy"> -->
+          <div class="fn-ph"><span>Local Support<br>工場訪問 / サンプル確認 / 打ち合わせ</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 LOGISTICS & DELIVERY -->
+  <section class="fn-sec" id="logistics" data-fade>
+    <div class="fn-sec-inner">
+      <div class="fn-split">
+        <div class="fn-text">
+          <div class="fn-sh">
+            <h2 class="fn-sh-en">Logistics &amp; Delivery</h2>
+            <p class="fn-sh-ja">物流と納期まで含めた判断</p>
+            <span class="fn-sh-line"></span>
+          </div>
+          <div class="fn-text-body">
+            <p>工場を選ぶ際には、単に"何が作れるか"だけでなく、どこから出荷するのか、どの程度納期に余裕を見込むべきかといった物流面も重要です。</p>
+            <p>日本との距離や港へのアクセス、船便のスケジュールなども踏まえながら、納期リスクをできるだけ抑えられる進行方法を検討します。</p>
+            <p>また、日本側では納品先やスケジュールに応じて、大阪港・東京港などの到着港や船便を選定し、国内配送まで含めた効率的なルートを検討しています。</p>
+            <p>製造背景だけでなく、納品まで含めて実務的に判断しながら工場を選定しています。</p>
+          </div>
+          <div class="fn-logistics-map">
+            <img src="../assets/images/factory-logistics-map.png" alt="物流ルートマップ 工場→港→日本" loading="lazy">
+          </div>
+        </div>
+        <div class="fn-img">
+          <!-- 差し替え：<img src="../assets/images/factory-logistics.jpg" alt="港・コンテナ・出荷" loading="lazy"> -->
+          <div class="fn-ph"><span>Logistics<br>港 / コンテナ / 出荷 / 梱包</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 QUALITY & PRODUCTION CONTROL -->
+  <section class="fn-sec fn-sec--alt" id="quality" data-fade>
+    <div class="fn-sec-inner">
+      <div class="fn-split">
+        <div class="fn-text">
+          <div class="fn-sh">
+            <h2 class="fn-sh-en">Quality &amp; Production Control</h2>
+            <p class="fn-sh-ja">品質管理と進行管理</p>
+            <span class="fn-sh-line"></span>
+          </div>
+          <div class="fn-text-body">
+            <p>製造において重要なのは、工場を選ぶことだけではなく、進行をどう管理するかです。</p>
+            <p>Like a Canvasでは、仕様確認、サンプルチェック、量産前の最終確認、品質管理、納期調整まで、一連の流れを整理しながら進めています。</p>
+            <p>量産時に起こりやすい課題も見越しながら、完成・納品まで伴走します。</p>
+          </div>
+        </div>
+        <div class="fn-img">
+          <!-- 差し替え：<img src="../assets/images/factory-quality.jpg" alt="検品・サンプル確認・仕様書" loading="lazy"> -->
+          <div class="fn-ph"><span>Quality Control<br>検品 / サンプル比較 / 仕様書確認</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 PLANNING FOR EACH PROJECT -->
+  <section class="fn-sec" id="planning" data-fade>
+    <div class="fn-sec-inner">
+      <div class="fn-split">
+        <div class="fn-text">
+          <div class="fn-sh">
+            <h2 class="fn-sh-en">Planning for Each Project</h2>
+            <p class="fn-sh-ja">お客様に合わせた最適なプランニング</p>
+            <span class="fn-sh-line"></span>
+          </div>
+          <div class="fn-text-body">
+            <p>私たちの役割は、単に工場を紹介することではありません。</p>
+            <p>作りたいもの、必要な数量、希望納期、ご予算に応じて、国内外のネットワークの中から最適な方法を組み立て、形にしていくことです。</p>
+            <p>まだ仕様が固まっていない段階でも、アイテム選定や進め方からお気軽にご相談ください。</p>
+          </div>
+        </div>
+        <div class="fn-collage">
+          <div class="fn-collage-item">
+            <img src="../assets/images/681b068125cef1412628d803_DSC01703_0004_背景_0003_背景.jpg" alt="アパレル" loading="lazy">
+          </div>
+          <div class="fn-collage-item">
+            <img src="../assets/images/681b02869f09a54f86f32551_DSC01590.jpg" alt="バッグ・小物" loading="lazy">
+          </div>
+          <div class="fn-collage-item">
+            <!-- 差し替え：傘など -->
+            <div class="fn-ph"><span>傘 / レインアイテム</span></div>
+          </div>
+          <div class="fn-collage-item">
+            <img src="../assets/images/6819d717e97984633ddb818a_DSC01543 2のコピー.jpg" alt="雑貨" loading="lazy">
+          </div>
+          <div class="fn-collage-item">
+            <img src="../assets/images/681afca6b1026f7389055124_DSC01732_0000_レイヤー 0_0003_背景.jpg" alt="アパレル" loading="lazy">
+          </div>
+          <div class="fn-collage-item">
+            <img src="../assets/images/681af5a9a7e83363a565b3be_DSC01439_0003_背景.jpg" alt="アパレル" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 過去制作事例 -->
+  <div class="page-archive-strip" data-fade>
+    <p class="page-archive-strip-label">過去制作事例</p>
+    <div class="page-archive-strip-scroll">
+      <div class="page-archive-thumbs" id="page-archive-thumbs"></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="wwcd-cta" data-fade>
+    <div class="wwcd-cta-inner">
+      <p class="wwcd-cta-label">Contact</p>
+      <p style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.9;margin-bottom:28px;">国内外の生産背景を活かしながら、アイテムや条件に応じた最適な進め方をご提案します。<br>まずは作りたいものやご希望の条件をお聞かせください。</p>
+      <a href="contact.html" class="wwcd-cta-btn">お問い合わせはこちら</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">
+            <img src="../assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+          </div>
+          <p class="footer-tagline">300枚から3万枚まで、<br>変わらぬ精度で。<br>デザイン〜製造〜納品を一括対応。</p>
+        </div>
+        <div>
+          <p class="footer-nav-title">Service</p>
+          <ul class="footer-nav-list">            <li><a href="what-we-can-do.html">何ができる？</a></li>
+            <li><a href="factory.html">提携工場</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-nav-title">Company</p>
+          <ul class="footer-nav-list">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2025 Like a Canvas / 株式会社Aoi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const thumbs = document.getElementById('page-archive-thumbs');
+      if (thumbs) {
+        PRODUCTS.forEach(p => {
+          const a = document.createElement('a');
+          a.href = `../product.html?id=${p.slug}`;
+          a.className = 'page-archive-thumb';
+          a.innerHTML = `<img src="../assets/images/${p.images[0]}" alt="${p.title}" loading="lazy">`;
+          thumbs.appendChild(a);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

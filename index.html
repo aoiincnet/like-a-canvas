@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Like a Canvas</title>
+  <meta name="description" content="300枚から3万枚まで、変わらぬ精度で。OEMグッズ制作のLike a Canvas。">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    /* フェードインアニメーション */
+    [data-fade] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    [data-fade].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* スライド全体リンク */
+    .hero-slide-link {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: block;
+    }
+    .hero .hero-slide-content { pointer-events: none; }
+  </style>
+</head>
+<body>
+
+  <!-- PRELOADER -->
+  <div class="preloader">
+    <div class="preloader-inner"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <img src="assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+      </a>
+      <ul class="nav-menu">
+        <li><a href="#archives">制作実績</a></li>
+        <li><a href="pages/factory.html">提携工場</a></li>
+        <li><a href="pages/what-we-can-do.html">何ができる？</a></li>
+        <li><a href="pages/about.html">About Us</a></li>
+        <li><a href="pages/contact.html" class="nav-contact-btn">お問い合わせ</a></li>
+      </ul>
+      <button class="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- モバイルメニュー -->
+  <div class="mobile-menu">
+    <button class="mobile-menu-close" aria-label="閉じる">×</button>
+    <a href="#archives">制作実績</a>
+    <a href="pages/factory.html">提携工場</a>
+    <a href="pages/what-we-can-do.html">何ができる？</a>
+    <a href="pages/about.html">About Us</a>
+    <a href="pages/contact.html">お問い合わせ</a>
+  </div>
+
+  <!-- HERO VIDEO SLIDER -->
+  <div class="hero-wrapper">
+  <div class="hero-wrapper-inner">
+  <section class="hero">
+    <div class="hero-slide active">
+      <a href="#archives" class="hero-slide-link"></a>
+      <video autoplay muted loop playsinline>
+        <source src="assets/videos/hero1.mp4" type="video/mp4">
+      </video>
+      <div class="hero-slide-overlay"></div>
+      <div class="hero-slide-content">
+        <p class="hero-slide-label">Our Clients &amp; Works</p>
+        <h2 class="hero-slide-title">全国規模のツアーアイテムから、<br>イベントのオリジナルグッズまで。</h2>
+        <p class="hero-slide-sub">Projects &amp; Highlights — 制作事例 / プロジェクト一覧</p>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <a href="pages/what-we-can-do.html" class="hero-slide-link"></a>
+      <video autoplay muted loop playsinline>
+        <source src="assets/videos/hero2.mp4" type="video/mp4">
+      </video>
+      <div class="hero-slide-overlay"></div>
+      <div class="hero-slide-content">
+        <p class="hero-slide-label">Custom Ideas</p>
+        <h2 class="hero-slide-title">コンサートやイベント、アウトドアまで。<br>さまざまなシーンで使えるもの。</h2>
+        <p class="hero-slide-sub">EVENT &amp; OUTDOOR &amp; CONCERT — シーンに応じた、あなただけのカスタムメイド。</p>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <a href="pages/factory.html" class="hero-slide-link"></a>
+      <video autoplay muted loop playsinline>
+        <source src="assets/videos/hero3.mp4" type="video/mp4">
+      </video>
+      <div class="hero-slide-overlay"></div>
+      <div class="hero-slide-content">
+        <p class="hero-slide-label">FACTORY NETWORK</p>
+        <h2 class="hero-slide-title">300枚から3万枚まで、<br>変わらぬ精度で。</h2>
+        <p class="hero-slide-sub">From 300 to 50,000 units — with the same precision.</p>
+      </div>
+    </div>
+
+    <button class="hero-arrow hero-arrow-prev" aria-label="前のスライド">&#8592;</button>
+    <button class="hero-arrow hero-arrow-next" aria-label="次のスライド">&#8594;</button>
+
+    <div class="hero-nav">
+      <button class="hero-dot active" aria-label="スライド1"></button>
+      <button class="hero-dot" aria-label="スライド2"></button>
+      <button class="hero-dot" aria-label="スライド3"></button>
+    </div>
+  </section>
+  </div>
+  </div>
+
+  <!-- ARCHIVES -->
+  <section class="archives-section" id="archives">
+    <div class="archives-inner">
+      <div class="archives-heading" data-fade>
+        <h2 class="archives-title-en">Archives</h2>
+        <p class="archives-title-ja">過去制作事例</p>
+      </div>
+      <div class="archives-grid" data-dynamic>
+        <!-- JSで動的生成 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE OVERVIEW -->
+  <section class="service-overview">
+    <div class="service-overview-inner">
+      <div class="service-overview-heading" data-fade>
+        <h2>Service Overview</h2>
+      </div>
+      <p class="service-overview-sub" data-fade>
+        <strong>「Like a Canvas」では、以下のサービスを通じて、<br>あなたのアイデアを形にします。</strong>
+      </p>
+      <div class="service-grid">
+        <div class="service-item" data-fade>
+          <a href="pages/what-we-can-do.html#Original-Print"><img src="assets/images/67225ff013fd7ca3d00be8e8_スクリーンショット 2024-10-31 1.00.39.jpg" alt="カスタムプリント" loading="lazy"></a>
+          <div class="service-item-body">
+            <h3 class="service-item-title">カスタムプリント</h3>
+            <p class="service-item-desc">既存のアイテムにプリントを入れてオリジナルアイテムを制作。</p>
+            <a href="pages/what-we-can-do.html#Original-Print" class="service-item-link">詳しく見る →</a>
+          </div>
+        </div>
+        <div class="service-item" data-fade>
+          <a href="pages/what-we-can-do.html#Full-Order-Item"><img src="assets/images/67225febbb9c9589325b29f1_スクリーンショット 2024-10-31 1.00.24.jpg" alt="フルオーダーアイテム" loading="lazy"></a>
+          <div class="service-item-body">
+            <h3 class="service-item-title">フルオーダーアイテム</h3>
+            <p class="service-item-desc">素材やデザイン、カラーまで選べる、フルオーダーのオリジナルアイテムを制作。</p>
+            <a href="pages/what-we-can-do.html#Full-Order-Item" class="service-item-link">詳しく見る →</a>
+          </div>
+        </div>
+        <div class="service-item" data-fade>
+          <a href="pages/what-we-can-do.html#Packaging"><img src="assets/images/67225feb622882e9ed7362a8_スクリーンショット 2024-10-31 1.00.32.jpg" alt="パッケージング" loading="lazy"></a>
+          <div class="service-item-body">
+            <h3 class="service-item-title">パッケージング</h3>
+            <p class="service-item-desc">商品を梱包する際のオリジナルパッケージの制作。スパイスを加えよう。</p>
+            <a href="pages/what-we-can-do.html#Packaging" class="service-item-link">詳しく見る →</a>
+          </div>
+        </div>
+        <div class="service-item" data-fade>
+          <a href="pages/what-we-can-do.html#Photography"><img src="assets/images/67225feb6327c298cfb6b664_スクリーンショット 2024-10-31 1.00.14.jpg" alt="商品撮影" loading="lazy"></a>
+          <div class="service-item-body">
+            <h3 class="service-item-title">商品撮影</h3>
+            <p class="service-item-desc">納品前に商品の撮影が可能です。オンラインショップやSNS向けに。</p>
+            <a href="pages/what-we-can-do.html#Photography" class="service-item-link">詳しく見る →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">
+            <img src="assets/images/68186288d533f7f3ee94c917_title.png" alt="Like a Canvas">
+          </div>
+          <p class="footer-tagline">300枚から3万枚まで、<br>変わらぬ精度で。<br>デザイン〜製造〜納品を一括対応。</p>
+        </div>
+        <div>
+          <p class="footer-nav-title">Service</p>
+          <ul class="footer-nav-list">            <li><a href="pages/what-we-can-do.html">何ができる？</a></li>
+            <li><a href="pages/factory.html">提携工場</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-nav-title">Company</p>
+          <ul class="footer-nav-list">
+            <li><a href="pages/about.html">About Us</a></li>
+            <li><a href="pages/contact.html">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2025 Like a Canvas / 株式会社Aoi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
