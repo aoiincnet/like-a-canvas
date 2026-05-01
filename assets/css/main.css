@@ -1308,7 +1308,7 @@ a {
 /* セクションヘッダー */
 .wwcd-section-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
   margin-bottom: 24px;
 }
@@ -1328,7 +1328,7 @@ a {
   font-weight: 300;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
   line-height: 1.1;
 }
 
