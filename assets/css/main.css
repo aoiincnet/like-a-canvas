@@ -1032,14 +1032,14 @@ a {
 
 .service-item-title {
   font-family: var(--font-heading);
-  font-size: clamp(13px, 1.6vw, 16px);
+  font-size: clamp(11px, 1.4vw, 14px);
   font-weight: 500;
   letter-spacing: 0.06em;
   margin-bottom: 6px;
 }
 
 .service-item-desc {
-  font-size: clamp(13px, 1.3vw, 14.5px);
+  font-size: clamp(11px, 1.1vw, 12px);
   color: var(--color-gray-dark);
   line-height: 1.55;
   margin-bottom: 14px;
