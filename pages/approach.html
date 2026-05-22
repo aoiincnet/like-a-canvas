@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Approach — Like a Canvas</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    [data-fade] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    [data-fade].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    .ap-hero {
+      background: var(--color-black);
+      color: var(--color-white);
+      padding: 100px 0 80px;
+      margin-top: 77px;
+    }
+    .ap-hero-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+    }
+    .ap-hero-label {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+      margin-bottom: 28px;
+    }
+    .ap-hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+      margin-bottom: 28px;
+    }
+    .ap-hero-sub {
+      font-family: var(--font-heading);
+      font-size: clamp(11px, 1.3vw, 15px);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* =============================================
+       INTRO + DIAGRAM
+    ============================================= */
+    .ap-intro {
+      background: #f7f5f2;
+      padding: 88px 0 80px;
+    }
+    .ap-intro-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .ap-statement {
+      font-family: var(--font-serif);
+      font-size: clamp(17px, 2vw, 24px);
+      font-weight: 700;
+      line-height: 1.45;
+      color: var(--color-black);
+      margin-bottom: 20px;
+    }
+    .ap-divider {
+      width: 32px;
+      height: 2px;
+      background: var(--color-black);
+      margin-bottom: 28px;
+    }
+    .ap-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .ap-body p {
+      font-size: 14px;
+      line-height: 1.95;
+      color: var(--color-gray-dark);
+    }
+    .ap-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 18px 22px;
+      border: 1px solid rgba(0,0,0,0.12);
+      background: var(--color-white);
+    }
+    .ap-box-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      opacity: 0.45;
+    }
+    .ap-box p {
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--color-gray-dark);
+    }
+
+    /* =============================================
+       DIAGRAM
+    ============================================= */
+    .ap-diagram {
+      position: relative;
+      aspect-ratio: 1;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .ap-diagram-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .ap-node {
+      position: absolute;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transform: translate(-50%, -50%);
+    }
+    .ap-node--outer {
+      width: 29%;
+      height: 29%;
+      border: 1.5px solid rgba(0,0,0,0.18);
+      background: #f7f5f2;
+      padding: 6%;
+    }
+    .ap-node--center {
+      width: 34%;
+      height: 34%;
+      background: var(--color-black);
+      color: var(--color-white);
+      padding: 4%;
+    }
+    .ap-node-label {
+      font-family: var(--font-heading);
+      font-size: clamp(7px, 1.5vw, 10px);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 5px;
+      line-height: 1.2;
+    }
+    .ap-node--idea .ap-node-label,
+    .ap-node--creative .ap-node-label,
+    .ap-node--production .ap-node-label {
+      color: rgba(160,120,72,1);
+    }
+    .ap-node--center .ap-node-label {
+      color: var(--color-white);
+      font-size: clamp(7px, 1.4vw, 10px);
+      letter-spacing: 0.08em;
+    }
+    .ap-node-items {
+      font-size: clamp(5px, 0.95vw, 7.5px);
+      line-height: 1.65;
+      color: #666;
+      letter-spacing: 0.01em;
+    }
+    .ap-node--center .ap-node-items {
+      color: rgba(255,255,255,0.55);
+      font-size: clamp(5px, 0.85vw, 7px);
+    }
+
+    /* positions (center of node, % of container) */
+    .ap-node--idea       { left: 50%;  top: 14%; }
+    .ap-node--center     { left: 50%;  top: 48%; }
+    .ap-node--creative   { left: 15%;  top: 80%; }
+    .ap-node--production { left: 85%;  top: 80%; }
+
+    /* =============================================
+       WHAT WE DO
+    ============================================= */
+    .ap-whatwedo {
+      padding: 88px 0 80px;
+      background: var(--color-white);
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .ap-whatwedo-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+    }
+    .ap-section-label {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--color-gray-mid);
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .ap-wwd-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 52px;
+    }
+    .ap-wwd-col-title {
+      font-family: var(--font-heading);
+      font-size: clamp(14px, 1.8vw, 18px);
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(160,120,72,1);
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(160,120,72,0.22);
+    }
+    .ap-wwd-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 28px;
+    }
+    .ap-wwd-list li {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--color-gray-dark);
+      padding-left: 14px;
+      position: relative;
+    }
+    .ap-wwd-list li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: rgba(160,120,72,0.7);
+      font-size: 18px;
+      line-height: 1.0;
+      top: 1px;
+    }
+    .ap-wwd-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #e8e4de;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    .ap-wwd-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .ap-wwd-caption {
+      font-size: 12px;
+      line-height: 1.75;
+      color: var(--color-gray-dark);
+    }
+
+    /* =============================================
+       FLOW
+    ============================================= */
+    .ap-flow {
+      background: #eeebe6;
+      padding: 80px 0;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .ap-flow-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+    }
+    .ap-flow-quote {
+      font-size: 14px;
+      line-height: 2.0;
+      color: var(--color-gray-dark);
+      margin-bottom: 52px;
+    }
+    .ap-flow-quote strong {
+      color: var(--color-black);
+      font-weight: 600;
+      display: block;
+      margin-top: 4px;
+    }
+    .ap-flow-steps {
+      display: flex;
+      align-items: stretch;
+      gap: 2px;
+    }
+    .ap-flow-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 28px 12px;
+      background: var(--color-white);
+      position: relative;
+    }
+    .ap-flow-step-num {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: rgba(160,120,72,0.7);
+      margin-bottom: 10px;
+    }
+    .ap-flow-step-label {
+      font-family: var(--font-heading);
+      font-size: clamp(9px, 1.1vw, 11px);
+      letter-spacing: 0.08em;
+      color: var(--color-black);
+      line-height: 1.65;
+    }
+    .ap-flow-arrow {
+      display: flex;
+      align-items: center;
+      color: rgba(0,0,0,0.2);
+      font-size: 14px;
+      flex-shrink: 0;
+      padding: 0 2px;
+      background: var(--color-white);
+    }
+
+    /* =============================================
+       CTA
+    ============================================= */
+    .ap-cta {
+      background: var(--color-black);
+      padding: 80px var(--site-pad);
+      text-align: center;
+      color: var(--color-white);
+    }
+    .ap-cta-inner { max-width: var(--site-max); margin: 0 auto; }
+    .ap-cta-label {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0.38;
+      margin-bottom: 16px;
+    }
+    .ap-cta-text {
+      font-family: var(--font-serif);
+      font-size: clamp(15px, 1.6vw, 18px);
+      line-height: 1.85;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 36px;
+    }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 767px) {
+      .ap-hero { padding: 72px 0 52px; margin-top: 60px; }
+      .ap-intro-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .ap-diagram { max-width: 340px; }
+      .ap-wwd-grid {
+        grid-template-columns: 1fr;
+        gap: 44px;
+      }
+      .ap-flow-steps {
+        flex-direction: column;
+        gap: 2px;
+      }
+      .ap-flow-arrow { display: none; }
+      .ap-flow-step { padding: 20px 16px; flex-direction: row; gap: 16px; text-align: left; }
+      .ap-flow-step-num { margin-bottom: 0; min-width: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../index.html" class="navbar-logo">
+        <img src="../assets/images/static/logo.png" alt="Like a Canvas">
+      </a>
+      <ul class="nav-menu">
+        <li><a href="../index.html#archives">制作実績</a></li>
+        <li><a href="approach.html">アプローチ</a></li>
+        <li><a href="factory.html">提携工場</a></li>
+        <li><a href="what-we-can-do.html">何ができる？</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" class="nav-contact-btn">お問い合わせ</a></li>
+      </ul>
+      <button class="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- モバイルメニュー -->
+  <div class="mobile-menu">
+    <button class="mobile-menu-close" aria-label="閉じる">×</button>
+    <a href="../index.html#archives">制作実績</a>
+    <a href="approach.html">アプローチ</a>
+    <a href="factory.html">提携工場</a>
+    <a href="what-we-can-do.html">何ができる？</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">お問い合わせ</a>
+  </div>
+
+  <main>
+
+    <!-- 1. HERO -->
+    <section class="ap-hero">
+      <div class="ap-hero-inner">
+        <p class="ap-hero-label">Our Approach</p>
+        <h1 class="ap-hero-title">Networked<br>Creative Production</h1>
+        <p class="ap-hero-sub">Connecting Ideas, Creativity and Production.</p>
+      </div>
+    </section>
+
+    <!-- 2. INTRO + DIAGRAM -->
+    <section class="ap-intro">
+      <div class="ap-intro-inner">
+
+        <!-- Left: text -->
+        <div data-fade>
+          <p class="ap-statement">Like a Canvas is not a factory,<br>and not only a creative studio.</p>
+          <div class="ap-divider"></div>
+          <div class="ap-body">
+            <p>私たちは、アイデア・クリエイティブ・ものづくりをつなぐハブとして、企画からデザイン、製造、納品までを一つの流れとして支えています。</p>
+            <p>まだ形になっていないアイデアや会話の段階から、グラフィックデザイン、パッケージ、工場選定、サンプル制作、品質管理、物流、納品まで、プロジェクトごとに最適な人・工場・進め方を組み立てながら伴走します。</p>
+            <p>具体的な商品イメージから始まるプロジェクトもあれば、「何を作ればいいかわからない」という状態から始まるプロジェクトもあります。</p>
+            <p>LIKE A CANVASは、クリエイティブとものづくりの両方を横断しながら、アイデアを実現可能な仕様へ翻訳し、最適な工場やチームと接続し、現実に成立する形へ導いていきます。</p>
+          </div>
+          <div class="ap-box">
+            <span class="ap-box-icon">◎</span>
+            <p>必要な工場・技術を、<br>アイテム／プロジェクトごとに編成します。</p>
+          </div>
+        </div>
+
+        <!-- Right: diagram -->
+        <div class="ap-diagram" data-fade>
+          <svg class="ap-diagram-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arr-e" markerWidth="5" markerHeight="5" refX="4.5" refY="2.5" orient="auto">
+                <polygon points="0 0, 5 2.5, 0 5" fill="rgba(0,0,0,0.28)"/>
+              </marker>
+              <marker id="arr-s" markerWidth="5" markerHeight="5" refX="0.5" refY="2.5" orient="auto-start-reverse">
+                <polygon points="0 0, 5 2.5, 0 5" fill="rgba(0,0,0,0.28)"/>
+              </marker>
+            </defs>
+
+            <!-- CENTER ↔ IDEA -->
+            <line x1="250" y1="155" x2="250" y2="138"
+              stroke="rgba(0,0,0,0.28)" stroke-width="1.2" stroke-dasharray="4,3"
+              marker-end="url(#arr-e)" marker-start="url(#arr-s)"/>
+
+            <!-- CENTER ↔ CREATIVE -->
+            <line x1="188" y1="293" x2="124" y2="352"
+              stroke="rgba(0,0,0,0.28)" stroke-width="1.2" stroke-dasharray="4,3"
+              marker-end="url(#arr-e)" marker-start="url(#arr-s)"/>
+
+            <!-- CENTER ↔ PRODUCTION -->
+            <line x1="312" y1="293" x2="376" y2="352"
+              stroke="rgba(0,0,0,0.28)" stroke-width="1.2" stroke-dasharray="4,3"
+              marker-end="url(#arr-e)" marker-start="url(#arr-s)"/>
+
+            <!-- IDEA ← → CREATIVE (outer arc) -->
+            <path d="M 217 128 Q 60 230 108 342"
+              stroke="rgba(0,0,0,0.1)" stroke-width="1.2" stroke-dasharray="3,4" fill="none"
+              marker-end="url(#arr-e)"/>
+
+            <!-- IDEA → PRODUCTION (outer arc) -->
+            <path d="M 283 128 Q 440 230 392 342"
+              stroke="rgba(0,0,0,0.1)" stroke-width="1.2" stroke-dasharray="3,4" fill="none"
+              marker-end="url(#arr-e)"/>
+
+            <!-- CREATIVE ↔ PRODUCTION -->
+            <line x1="147" y1="400" x2="353" y2="400"
+              stroke="rgba(0,0,0,0.1)" stroke-width="1.2" stroke-dasharray="3,4"
+              marker-end="url(#arr-e)" marker-start="url(#arr-s)"/>
+          </svg>
+
+          <!-- IDEA -->
+          <div class="ap-node ap-node--outer ap-node--idea">
+            <span class="ap-node-label">IDEA</span>
+            <span class="ap-node-items">企画・コンセプト<br>グッズ提案<br>体験設計<br>配布アイデア<br>etc.</span>
+          </div>
+
+          <!-- CENTER -->
+          <div class="ap-node ap-node--center">
+            <span class="ap-node-label">LIKE<br>A<br>CANVAS</span>
+            <span class="ap-node-items">ハブ／翻訳<br>ディレクション<br>プロジェクト編成</span>
+          </div>
+
+          <!-- CREATIVE -->
+          <div class="ap-node ap-node--outer ap-node--creative">
+            <span class="ap-node-label">CREATIVE</span>
+            <span class="ap-node-items">グラフィック<br>パッケージ<br>映像・Web<br>撮影・コピー<br>etc.</span>
+          </div>
+
+          <!-- PRODUCTION -->
+          <div class="ap-node ap-node--outer ap-node--production">
+            <span class="ap-node-label">PRODUCTION</span>
+            <span class="ap-node-items">工場・生産背景<br>QC・品質管理<br>ロット・素材<br>納期・輸送<br>etc.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. WHAT WE DO -->
+    <section class="ap-whatwedo" data-fade>
+      <div class="ap-whatwedo-inner">
+        <p class="ap-section-label">What We Do</p>
+        <div class="ap-wwd-grid">
+
+          <!-- IDEA -->
+          <div>
+            <h3 class="ap-wwd-col-title">Idea</h3>
+            <ul class="ap-wwd-list">
+              <li>企画 / コンセプト設計</li>
+              <li>グッズ提案 / 商品ラインナップの構築</li>
+              <li>世界観 / ストーリー設計</li>
+              <li>体験設計 / 配布・販売設計</li>
+              <li>笑い袋 / 香り / 音などのアイデア提案</li>
+              <li>市場 / ターゲット分析</li>
+              <li>予算 / 数量 / 納期の整理</li>
+            </ul>
+            <div class="ap-wwd-img"></div>
+            <p class="ap-wwd-caption">「何を作ればいいかわからない」段階から、一緒に考えます。</p>
+          </div>
+
+          <!-- CREATIVE -->
+          <div>
+            <h3 class="ap-wwd-col-title">Creative</h3>
+            <ul class="ap-wwd-list">
+              <li>グラフィックデザイン</li>
+              <li>ロゴデザイン</li>
+              <li>パッケージデザイン</li>
+              <li>映像 / Web / 撮影</li>
+              <li>コピー / テキスト制作</li>
+              <li>必要に応じたデザイナーや<br>クリエイターのアサイン</li>
+            </ul>
+            <div class="ap-wwd-img"></div>
+            <p class="ap-wwd-caption">企画の意図を、ビジュアルと体験に落とし込み、魅力的に伝わる形をつくります。</p>
+          </div>
+
+          <!-- PRODUCTION -->
+          <div>
+            <h3 class="ap-wwd-col-title">Production</h3>
+            <ul class="ap-wwd-list">
+              <li>工場選定（国内 / 海外）</li>
+              <li>サンプル制作 / 修正</li>
+              <li>量産管理 / 品質管理（QC）</li>
+              <li>ロット / 素材 / 加工の最適化</li>
+              <li>納期管理</li>
+              <li>輸送 / 通関 / 物流</li>
+              <li>梱包 / 納品</li>
+            </ul>
+            <div class="ap-wwd-img"></div>
+            <p class="ap-wwd-caption">最適な工場と生産体制を構築し、高い品質で確実に届けます。</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. FLOW -->
+    <section class="ap-flow" data-fade>
+      <div class="ap-flow-inner">
+        <p class="ap-flow-quote">
+          アイデアを、ただのイメージで終わらせず、実際に手に取れるものとして成立させること。
+          <strong>それが、Like a Canvas の考えるものづくりです。</strong>
+        </p>
+        <div class="ap-flow-steps">
+          <div class="ap-flow-step">
+            <span class="ap-flow-step-num">01</span>
+            <span class="ap-flow-step-label">ヒアリング /<br>アイデア整理</span>
+          </div>
+          <div class="ap-flow-arrow">›</div>
+          <div class="ap-flow-step">
+            <span class="ap-flow-step-num">02</span>
+            <span class="ap-flow-step-label">企画 / デザイン /<br>提案</span>
+          </div>
+          <div class="ap-flow-arrow">›</div>
+          <div class="ap-flow-step">
+            <span class="ap-flow-step-num">03</span>
+            <span class="ap-flow-step-label">サンプル /<br>工場選定</span>
+          </div>
+          <div class="ap-flow-arrow">›</div>
+          <div class="ap-flow-step">
+            <span class="ap-flow-step-num">04</span>
+            <span class="ap-flow-step-label">量産 / QC /<br>生産管理</span>
+          </div>
+          <div class="ap-flow-arrow">›</div>
+          <div class="ap-flow-step">
+            <span class="ap-flow-step-num">05</span>
+            <span class="ap-flow-step-label">輸送 / 納品 /<br>アフターフォロー</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. CTA -->
+    <section class="ap-cta">
+      <div class="ap-cta-inner">
+        <p class="ap-cta-label">Contact</p>
+        <p class="ap-cta-text">まだアイデア段階でも、お気軽にご相談ください。<br>プロジェクトごとに最適な形を一緒に考えます。</p>
+        <a href="contact.html" class="wwcd-cta-btn">お問い合わせ</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">
+            <img src="../assets/images/static/logo.png" alt="Like a Canvas">
+          </div>
+          <p class="footer-tagline">300枚から3万枚まで、<br>変わらぬ精度で。<br>デザイン〜製造〜納品を一括対応。</p>
+        </div>
+        <div>
+          <p class="footer-nav-title">Service</p>
+          <ul class="footer-nav-list">
+            <li><a href="what-we-can-do.html">何ができる？</a></li>
+            <li><a href="factory.html">提携工場</a></li>
+            <li><a href="approach.html">アプローチ</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-nav-title">Company</p>
+          <ul class="footer-nav-list">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2025 Like a Canvas / 株式会社Aoi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    // fade-in on scroll
+    const faders = document.querySelectorAll('[data-fade]');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    faders.forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
