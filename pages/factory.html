@@ -274,6 +274,43 @@
       display: block;
     }
 
+    /* LOGISTICS DIAGRAM */
+    .fn-logistics-diagram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .fn-ld-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .fn-ld-ph {
+      width: 72px;
+      height: 64px;
+      background: rgba(160,120,72,0.05);
+      border: 1px dashed rgba(160,120,72,0.3);
+    }
+    .fn-ld-label {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: rgba(0,0,0,0.45);
+    }
+    .fn-ld-arrow {
+      flex-shrink: 0;
+      color: rgba(160,120,72,0.5);
+      padding-bottom: 20px;
+    }
+    .fn-ld-arrow svg {
+      width: 38px;
+      height: auto;
+      display: block;
+    }
+
     /* RESPONSIVE */
     @media (max-width: 960px) {
       .fn-collage { grid-template-columns: repeat(2, 1fr); }
@@ -312,7 +349,7 @@
       </a>
       <ul class="nav-menu">
         <li><a href="../index.html#archives">制作実績</a></li>
-        <li><a href="approach.html">アプローチ</a></li>
+        <li><a href="network.html">ネットワーク</a></li>
         <li><a href="factory.html">提携工場</a></li>
         <li><a href="what-we-can-do.html">何ができる？</a></li>
         <li><a href="about.html">About Us</a></li>
@@ -327,7 +364,7 @@
   <div class="mobile-menu">
     <button class="mobile-menu-close" aria-label="閉じる">×</button>
     <a href="../index.html#archives">制作実績</a>
-    <a href="approach.html">アプローチ</a>
+    <a href="network.html">ネットワーク</a>
     <a href="factory.html">提携工場</a>
     <a href="what-we-can-do.html">何ができる？</a>
     <a href="about.html">About Us</a>
@@ -343,8 +380,8 @@
       <div class="fn-hero-overlay"></div>
       <div class="fn-hero-content">
         <div class="fn-hero-text">
-          <p class="fn-hero-eyebrow">FACTORY NETWORK</p>
-          <h1 class="fn-hero-title">Factory<br>Network</h1>
+          <p class="fn-hero-eyebrow">FACTORY & LOGISTICS</p>
+          <h1 class="fn-hero-title">Factory &<br>Logistics</h1>
           <p class="fn-hero-title-ja">国内外の提携工場について</p>
           <p class="fn-hero-body">Like a Canvasでは、国内外の提携工場と連携し、アイテムやロット、仕様、納期に応じて最適な生産背景を組み立てています。小ロットや短納期に対応しやすい国内工場と、スケールメリットや幅広い生産体制を持つ海外工場。それぞれの特性を活かしながら、企画からサンプル、量産、品質管理、納品まで一貫して対応しています。</p>
         </div>
@@ -450,8 +487,43 @@
             <p>また、日本側では納品先やスケジュールに応じて、大阪港・東京港などの到着港や船便を選定し、国内配送まで含めた効率的なルートを検討しています。</p>
             <p>製造背景だけでなく、納品まで含めて実務的に判断しながら工場を選定しています。</p>
           </div>
-          <div class="fn-logistics-map">
-            <img src="../assets/images/static/factory-logistics-map.png" alt="物流ルートマップ 工場→港→日本" loading="lazy">
+          <div class="fn-logistics-diagram">
+
+            <!-- 工場 -->
+            <div class="fn-ld-item">
+              <!-- 差し替え: <img src="../assets/images/static/icon-factory.svg" alt="工場" width="72"> -->
+              <div class="fn-ld-ph"></div>
+              <span class="fn-ld-label">工場</span>
+            </div>
+
+            <div class="fn-ld-arrow">
+              <svg viewBox="0 0 44 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="1" y1="7" x2="38" y2="7"/>
+                <polyline points="32,2 40,7 32,12"/>
+              </svg>
+            </div>
+
+            <!-- 港 -->
+            <div class="fn-ld-item">
+              <!-- 差し替え: <img src="../assets/images/static/icon-port.svg" alt="港" width="72"> -->
+              <div class="fn-ld-ph"></div>
+              <span class="fn-ld-label">港</span>
+            </div>
+
+            <div class="fn-ld-arrow">
+              <svg viewBox="0 0 44 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="1" y1="7" x2="38" y2="7"/>
+                <polyline points="32,2 40,7 32,12"/>
+              </svg>
+            </div>
+
+            <!-- 日本 -->
+            <div class="fn-ld-item">
+              <!-- 差し替え: <img src="../assets/images/static/icon-japan.svg" alt="日本" width="72"> -->
+              <div class="fn-ld-ph"></div>
+              <span class="fn-ld-label">日本</span>
+            </div>
+
           </div>
         </div>
         <div class="fn-img">
@@ -556,7 +628,7 @@
         <div>
           <p class="footer-nav-title">Service</p>
           <ul class="footer-nav-list">            <li><a href="what-we-can-do.html">何ができる？</a></li>
-            <li><a href="approach.html">アプローチ</a></li>
+            <li><a href="network.html">ネットワーク</a></li>
         <li><a href="factory.html">提携工場</a></li>
           </ul>
         </div>
