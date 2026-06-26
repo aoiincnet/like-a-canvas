@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factory Showcase — Like a Canvas</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    [data-fade] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    [data-fade].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== HERO ===== */
+    .fs-hero {
+      margin-top: 77px;
+      padding: 0 var(--site-pad);
+      max-width: calc(var(--site-max) + var(--site-pad) * 2);
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .fs-hero-box {
+      position: relative;
+      aspect-ratio: 16 / 6;
+      overflow: hidden;
+      background: #1a1a1a;
+    }
+    .fs-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(255,255,255,0.96) 0%,
+        rgba(255,255,255,0.85) 30%,
+        rgba(255,255,255,0.3) 65%,
+        rgba(255,255,255,0) 100%
+      );
+    }
+    .fs-hero-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+    }
+    .fs-hero-text { max-width: 440px; }
+    .fs-hero-eyebrow {
+      font-family: var(--font-heading);
+      font-size: 8px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #a07850;
+      margin-bottom: 8px;
+    }
+    .fs-hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 200;
+      line-height: 1.0;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-black);
+      margin-bottom: 6px;
+    }
+    .fs-hero-title-ja {
+      font-size: 11px;
+      color: var(--color-gray-dark);
+      margin-bottom: 18px;
+    }
+    .fs-hero-body {
+      font-size: 11px;
+      line-height: 2.0;
+      color: #555;
+    }
+
+    /* ===== SECTION BASE ===== */
+    .fs-sec {
+      padding: 72px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .fs-sec--alt {
+      background: var(--color-gray);
+    }
+    .fs-sec-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+    }
+
+    /* ===== FACTORY INDEX ===== */
+    .fs-index {
+      padding: 32px 0 0;
+    }
+    .fs-index-inner {
+      max-width: var(--site-max);
+      margin: 0 auto;
+      padding: 0 var(--site-pad);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .fs-index-item {
+      font-family: var(--font-heading);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-gray-dark);
+      padding: 6px 14px;
+      border: 1px solid rgba(0,0,0,0.15);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .fs-index-item:hover {
+      background: var(--color-black);
+      color: #fff;
+    }
+
+    /* ===== FACTORY SECTION LAYOUT ===== */
+    .fs-factory {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-bottom: 40px;
+    }
+    .fs-factory--reverse {
+      direction: rtl;
+    }
+    .fs-factory--reverse > * {
+      direction: ltr;
+    }
+
+    /* メイン写真 */
+    .fs-main-photo {
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #e8e4de;
+    }
+    .fs-main-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .fs-ph {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #ddd9d3;
+      color: rgba(0,0,0,0.3);
+      font-family: var(--font-heading);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 2;
+    }
+    .fs-ph-icon {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 10px;
+      opacity: 0.25;
+    }
+
+    /* テキストブロック */
+    .fs-info {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-top: 8px;
+    }
+    .fs-tag {
+      font-family: var(--font-heading);
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #a07850;
+    }
+    .fs-factory-num {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: rgba(0,0,0,0.2);
+    }
+    .fs-factory-name {
+      font-family: var(--font-heading);
+      font-size: clamp(20px, 2.2vw, 28px);
+      font-weight: 200;
+      letter-spacing: 0.1em;
+      line-height: 1.2;
+      text-transform: uppercase;
+      color: var(--color-black);
+    }
+    .fs-factory-name-ja {
+      font-size: 13px;
+      color: var(--color-gray-dark);
+      margin-top: 4px;
+    }
+    .fs-divider {
+      width: 32px;
+      height: 1px;
+      background: rgba(160,120,72,0.5);
+    }
+    .fs-desc {
+      font-size: 13px;
+      line-height: 1.95;
+      color: var(--color-gray-dark);
+    }
+    .fs-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .fs-features li {
+      font-size: 11px;
+      color: var(--color-gray-dark);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.6;
+    }
+    .fs-features li::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 1px;
+      background: #a07850;
+      flex-shrink: 0;
+      margin-top: 9px;
+    }
+
+    /* 詳細写真グリッド */
+    .fs-detail-photos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .fs-detail-photo {
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #e0dbd4;
+    }
+    .fs-detail-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .fs-detail-ph {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #d8d3cc;
+      color: rgba(0,0,0,0.25);
+      font-family: var(--font-heading);
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 8px;
+      line-height: 1.8;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .fs-factory {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .fs-factory--reverse {
+        direction: ltr;
+      }
+    }
+    @media (max-width: 767px) {
+      .fs-hero { padding: 0; }
+      .fs-hero-box { aspect-ratio: 3/2; }
+      .fs-hero-overlay {
+        background: linear-gradient(
+          to right,
+          rgba(0,0,0,0.72) 0%,
+          rgba(0,0,0,0.52) 55%,
+          rgba(0,0,0,0.18) 100%
+        );
+      }
+      .fs-hero-content { padding: 0 20px; }
+      .fs-hero-text { max-width: 100%; }
+      .fs-hero-eyebrow { color: rgba(255,255,255,0.6); }
+      .fs-hero-title { color: #fff; }
+      .fs-hero-title-ja { color: rgba(255,255,255,0.7); }
+      .fs-hero-body { color: rgba(255,255,255,0.75); font-size: 10px; }
+      .fs-sec { padding: 48px 0; }
+      .fs-detail-photos { gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../index.html" class="navbar-logo">
+        <img src="../assets/images/static/logo.png" alt="Like a Canvas">
+      </a>
+      <ul class="nav-menu">
+        <li><a href="../index.html#archives">制作実績</a></li>
+        <li><a href="network.html">企画から商品化まで</a></li>
+        <li><a href="factory.html">提携工場</a></li>
+        <li><a href="factory-showcase.html">工場紹介</a></li>
+        <li><a href="what-we-can-do.html">何ができる？</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" class="nav-contact-btn">お問い合わせ</a></li>
+      </ul>
+      <button class="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <button class="mobile-menu-close" aria-label="閉じる">×</button>
+    <a href="../index.html#archives">制作実績</a>
+    <a href="network.html">企画から商品化まで</a>
+    <a href="factory.html">提携工場</a>
+    <a href="factory-showcase.html">工場紹介</a>
+    <a href="what-we-can-do.html">何ができる？</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">お問い合わせ</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="fs-hero">
+    <div class="fs-hero-box">
+      <!-- 差し替え: <img src="../assets/images/static/factory-hero.jpg" alt="" class="fs-hero-img"> -->
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#c8c0b4 0%,#a8a094 100%);"></div>
+      <div class="fs-hero-overlay"></div>
+      <div class="fs-hero-content">
+        <div class="fs-hero-text">
+          <p class="fs-hero-eyebrow">OUR FACTORIES</p>
+          <h1 class="fs-hero-title">Factory<br>Showcase</h1>
+          <p class="fs-hero-title-ja">提携工場の現場から</p>
+          <p class="fs-hero-body">染め・縫製・傘・サンダル・第三者検品まで。<br>Like a Canvasの生産背景を支える各工場を紹介します。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INDEX LINKS -->
+  <div class="fs-index">
+    <div class="fs-index-inner">
+      <a href="#dyeing" class="fs-index-item">染め工場</a>
+      <a href="#sewing" class="fs-index-item">縫製工場</a>
+      <a href="#umbrella" class="fs-index-item">傘・生地工場</a>
+      <a href="#sandal" class="fs-index-item">サンダル工場</a>
+      <a href="#inspection" class="fs-index-item">第三者検品</a>
+    </div>
+  </div>
+
+  <!-- 01 染め工場 -->
+  <section class="fs-sec" id="dyeing" data-fade>
+    <div class="fs-sec-inner">
+
+      <div class="fs-factory">
+        <div class="fs-main-photo">
+          <!-- 差し替え: <img src="../assets/images/factory-dyeing-main.jpg" alt="染め工場"> -->
+          <div class="fs-ph">
+            <svg class="fs-ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="9"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg>
+            Photo<br>染め工場・メインショット
+          </div>
+        </div>
+
+        <div class="fs-info">
+          <div>
+            <p class="fs-tag">Factory 01 — Dyeing</p>
+            <p class="fs-factory-num">01</p>
+          </div>
+          <h2 class="fs-factory-name">Dyeing<br>Factory</h2>
+          <p class="fs-factory-name-ja">染め工場</p>
+          <div class="fs-divider"></div>
+          <p class="fs-desc">ご希望の色・風合いに合わせた染色加工に対応。バット染め・反応染め・顔料染めなど、素材や仕上がりに応じた染色方法を選定し、色ブレの少ない安定した品質で量産しています。</p>
+          <ul class="fs-features">
+            <li>オリジナルカラー対応・Pantone照合</li>
+            <li>ピグメント（顔料）染め・製品染め</li>
+            <li>ムラ感・ヴィンテージ加工にも対応</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fs-detail-photos">
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>染色槽・設備</div>
+        </div>
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>色見本・Pantone照合</div>
+        </div>
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>仕上がり生地・検色</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 02 縫製工場 -->
+  <section class="fs-sec fs-sec--alt" id="sewing" data-fade>
+    <div class="fs-sec-inner">
+
+      <div class="fs-factory fs-factory--reverse">
+        <div class="fs-main-photo">
+          <!-- 差し替え: <img src="../assets/images/factory-sewing-main.jpg" alt="縫製工場"> -->
+          <div class="fs-ph">
+            <svg class="fs-ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 3l18 18M7 7l10 10"/><circle cx="5" cy="19" r="2"/></svg>
+            Photo<br>縫製工場・メインショット
+          </div>
+        </div>
+
+        <div class="fs-info">
+          <div>
+            <p class="fs-tag">Factory 02 — Sewing</p>
+            <p class="fs-factory-num">02</p>
+          </div>
+          <h2 class="fs-factory-name">Sewing<br>Factory</h2>
+          <p class="fs-factory-name-ja">縫製工場</p>
+          <div class="fs-divider"></div>
+          <p class="fs-desc">Tシャツ・パーカー・ジャケットなどのアパレルから、バッグ・ポーチなどの小物まで幅広い縫製に対応。仕様書をもとにサンプルを繰り返し調整しながら、量産品質を確立していきます。</p>
+          <ul class="fs-features">
+            <li>アパレル全般（カットソー・ニット・ウーブン）</li>
+            <li>袋物・バッグ・ポーチ類</li>
+            <li>サンプル～量産まで一貫対応</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fs-detail-photos">
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>縫製ライン・ミシン作業</div>
+        </div>
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>裁断・パターン</div>
+        </div>
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>仕上げ・アイロン作業</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 03 傘・生地工場 -->
+  <section class="fs-sec" id="umbrella" data-fade>
+    <div class="fs-sec-inner">
+
+      <div class="fs-factory">
+        <div class="fs-main-photo">
+          <!-- 差し替え: <img src="../assets/images/factory-umbrella-main.jpg" alt="傘工場"> -->
+          <div class="fs-ph">
+            <svg class="fs-ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2C6.5 2 2 8 2 12h20c0-4-4.5-10-10-10z"/><path d="M12 12v8M10 20h4"/></svg>
+            Photo<br>傘工場・メインショット
+          </div>
+        </div>
+
+        <div class="fs-info">
+          <div>
+            <p class="fs-tag">Factory 03 — Umbrella & Fabric</p>
+            <p class="fs-factory-num">03</p>
+          </div>
+          <h2 class="fs-factory-name">Umbrella &<br>Fabric</h2>
+          <p class="fs-factory-name-ja">傘・生地工場</p>
+          <div class="fs-divider"></div>
+          <p class="fs-desc">傘の企画・製造において、生地の製造段階から一貫して関与できる工場と連携しています。生地の織り・プリント・撥水加工から傘の組立・縫製まで、全工程を一箇所で管理できるため、品質と仕様精度が高く保てます。</p>
+          <ul class="fs-features">
+            <li>生地製造（織り・プリント・撥水加工）から一貫対応</li>
+            <li>折り畳み・長傘・ジャンプ傘など各種対応</li>
+            <li>フルオーダー生地・デザイン印刷対応</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fs-detail-photos">
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>生地製造・織機</div>
+        </div>
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>傘の組み立てライン</div>
+        </div>
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>完成品・品質確認</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 04 サンダル工場 -->
+  <section class="fs-sec fs-sec--alt" id="sandal" data-fade>
+    <div class="fs-sec-inner">
+
+      <div class="fs-factory fs-factory--reverse">
+        <div class="fs-main-photo">
+          <!-- 差し替え: <img src="../assets/images/factory-sandal-main.jpg" alt="サンダル工場"> -->
+          <div class="fs-ph">
+            <svg class="fs-ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><ellipse cx="12" cy="17" rx="9" ry="3"/><path d="M3 17V8l9-5 9 5v9"/></svg>
+            Photo<br>サンダル工場・メインショット
+          </div>
+        </div>
+
+        <div class="fs-info">
+          <div>
+            <p class="fs-tag">Factory 04 — Sandal</p>
+            <p class="fs-factory-num">04</p>
+          </div>
+          <h2 class="fs-factory-name">Sandal<br>Factory</h2>
+          <p class="fs-factory-name-ja">サンダル工場</p>
+          <div class="fs-divider"></div>
+          <p class="fs-desc">ソール・アッパー・ストラップの素材選定から成形・組立まで対応するシューズ専門工場と連携しています。ブランドロゴの刻印・プリント、素材のカスタム対応も可能です。</p>
+          <ul class="fs-features">
+            <li>EVA・ゴム・レザーなど素材バリエーション</li>
+            <li>ロゴ刻印・プリント対応</li>
+            <li>サンプル → 量産対応（最小ロット応相談）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fs-detail-photos">
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>ソール成形</div>
+        </div>
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>アッパー・ストラップ加工</div>
+        </div>
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>完成品・ロゴ入り</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 05 第三者検品 -->
+  <section class="fs-sec" id="inspection" data-fade>
+    <div class="fs-sec-inner">
+
+      <div class="fs-factory">
+        <div class="fs-main-photo">
+          <!-- 差し替え: <img src="../assets/images/factory-inspection-main.jpg" alt="第三者検品"> -->
+          <div class="fs-ph">
+            <svg class="fs-ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>
+            Photo<br>検品現場・メインショット
+          </div>
+        </div>
+
+        <div class="fs-info">
+          <div>
+            <p class="fs-tag">Factory 05 — Inspection</p>
+            <p class="fs-factory-num">05</p>
+          </div>
+          <h2 class="fs-factory-name">3rd Party<br>Inspection</h2>
+          <p class="fs-factory-name-ja">第三者検品</p>
+          <div class="fs-divider"></div>
+          <p class="fs-desc">製造工場とは独立した第三者検品機関による品質確認を実施しています。縫製・プリント・サイズ・数量・梱包状態まで、出荷前に一定基準でのチェックを行い、品質トラブルを未然に防ぎます。</p>
+          <ul class="fs-features">
+            <li>外観検査・寸法検査・数量確認</li>
+            <li>NGサンプルのフォトレポート付き</li>
+            <li>中国現地での出荷前検品に対応</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fs-detail-photos">
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>検品スタッフ・作業風景</div>
+        </div>
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>寸法検査・チェックシート</div>
+        </div>
+        <div class="fs-detail-photo">
+          <div class="fs-detail-ph">Photo<br>梱包確認・出荷前状態</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 過去制作事例 -->
+  <div class="page-archive-strip" data-fade>
+    <p class="page-archive-strip-label">過去制作事例</p>
+    <div class="page-archive-strip-scroll">
+      <div class="page-archive-thumbs" id="page-archive-thumbs"></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="wwcd-cta" data-fade>
+    <div class="wwcd-cta-inner">
+      <p class="wwcd-cta-label">Contact</p>
+      <p style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.9;margin-bottom:28px;">作りたいアイテムに応じて、最適な工場をご提案します。<br>まずはお気軽にご相談ください。</p>
+      <a href="contact.html" class="wwcd-cta-btn">お問い合わせはこちら</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">
+            <img src="../assets/images/static/logo.png" alt="Like a Canvas">
+          </div>
+          <p class="footer-tagline">300枚から3万枚まで、<br>変わらぬ精度で。<br>デザイン〜製造〜納品を一括対応。</p>
+        </div>
+        <div>
+          <p class="footer-nav-title">Service</p>
+          <ul class="footer-nav-list">
+            <li><a href="what-we-can-do.html">何ができる？</a></li>
+            <li><a href="network.html">企画から商品化まで</a></li>
+            <li><a href="factory.html">提携工場</a></li>
+            <li><a href="factory-showcase.html">工場紹介</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-nav-title">Company</p>
+          <ul class="footer-nav-list">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2025 Like a Canvas / 株式会社Aoi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const thumbs = document.getElementById('page-archive-thumbs');
+      if (thumbs) {
+        PRODUCTS.forEach(p => {
+          const a = document.createElement('a');
+          a.href = `../product.html?id=${p.slug}`;
+          a.className = 'page-archive-thumb';
+          a.innerHTML = `<img src="../assets/images/${p.images[0]}" alt="${p.title}" loading="lazy">`;
+          thumbs.appendChild(a);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
