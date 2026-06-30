@@ -608,25 +608,6 @@ a {
   letter-spacing: 0.03em;
 }
 
-.archive-item-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  padding: 6px 0 2px;
-}
-
-.archive-tag {
-  font-family: var(--font-heading);
-  font-size: 8px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(0,0,0,0.4);
-  border: 1px solid rgba(0,0,0,0.13);
-  padding: 2px 7px;
-  display: inline-block;
-  line-height: 1.6;
-}
-
 /* ================================================
    PRODUCT DETAIL ページ
    ================================================ */
