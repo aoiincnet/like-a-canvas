@@ -153,103 +153,120 @@ const PRODUCTS = [
     slug: 'nfrgmt-tape',
     title: 'NFRGMT Masking Tape',
     description: 'NFRGMTオリジナルマスキングテープ。',
-    images: ['6819d717e97984633ddb818a_DSC01543 2のコピー.jpg']
+    images: ['6819d717e97984633ddb818a_DSC01543 2のコピー.jpg'],
+    tags: ['パッケージング']
   },
   {
     slug: 'strike-staff-t-shirt',
     title: '"STRIKE!" STAFF T-shirt',
     description: 'スタッフ向けオリジナルTシャツ。',
-    images: ['681ac9e687cad6b4b083b570_DSC01419_0002_DSC01434.jpg', '681b02869f09a54f86f32551_DSC01590.jpg']
+    images: ['681ac9e687cad6b4b083b570_DSC01419_0002_DSC01434.jpg', '681b02869f09a54f86f32551_DSC01590.jpg'],
+    tags: ['カスタムプリント', 'シルクスクリーン']
   },
   {
     slug: 'join-alive-nf-sacoche',
     title: '"JOIN ALIVE × NF" サコッシュ',
     description: 'JOIN ALIVE × NFコラボサコッシュ。',
-    images: ['681af5a9a7e83363a565b3be_DSC01439_0003_背景.jpg']
+    images: ['681af5a9a7e83363a565b3be_DSC01439_0003_背景.jpg'],
+    tags: ['フルオーダー', 'カスタムプリント']
   },
   {
     slug: 'sakanaction-eureka-t-shirt',
     title: 'sakanaction Eureka T-shirt',
     description: 'sakanaction Eureka ツアーTシャツ。',
-    images: ['681afca6b1026f7389055124_DSC01732_0000_レイヤー 0_0003_背景.jpg']
+    images: ['681afca6b1026f7389055124_DSC01732_0000_レイヤー 0_0003_背景.jpg'],
+    tags: ['カスタムプリント', 'シルクスクリーン']
   },
   {
     slug: 'nfrgmt-slumbers-hoodie',
     title: 'NFRGMT slumbers Hoodie',
     description: 'NFRGMTオリジナルパーカー。',
-    images: ['681b068125cef1412628d803_DSC01703_0004_背景_0003_背景.jpg']
+    images: ['681b068125cef1412628d803_DSC01703_0004_背景_0003_背景.jpg'],
+    tags: ['フルオーダー', 'カスタムプリント']
   },
   {
     slug: 'item-06',
     title: 'Original Item 06',
     description: 'OEMオリジナルアイテム。',
-    images: ['681b02869f09a54f86f32551_DSC01590.jpg']
+    images: ['681b02869f09a54f86f32551_DSC01590.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-07',
     title: 'Original Item 07',
     description: 'OEMオリジナルアイテム。',
-    images: ['6726f97f12589c89e209d25f_スクリーンショット 2024-11-03 13.14.14.jpg']
+    images: ['6726f97f12589c89e209d25f_スクリーンショット 2024-11-03 13.14.14.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-08',
     title: 'Original Item 08',
     description: 'OEMオリジナルアイテム。',
-    images: ['6726fd7bda54fc946df22c83_スクリーンショット 2024-11-03 13.32.37.jpg']
+    images: ['6726fd7bda54fc946df22c83_スクリーンショット 2024-11-03 13.32.37.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-09',
     title: 'Original Item 09',
     description: 'OEMオリジナルアイテム。',
-    images: ['6726fd911d64c7d0aa81d4ca_スクリーンショット 2024-11-03 13.32.26.jpg']
+    images: ['6726fd911d64c7d0aa81d4ca_スクリーンショット 2024-11-03 13.32.26.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-10',
     title: 'Original Item 10',
     description: 'OEMオリジナルアイテム。',
-    images: ['67273aa6aca8c9d370007363_スクリーンショット 2024-11-03 17.55.10.jpg']
+    images: ['67273aa6aca8c9d370007363_スクリーンショット 2024-11-03 17.55.10.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-11',
     title: 'Original Item 11',
     description: 'OEMオリジナルアイテム。',
-    images: ['67273ab27cab3af512d607aa_スクリーンショット 2024-11-03 17.53.28.jpg']
+    images: ['67273ab27cab3af512d607aa_スクリーンショット 2024-11-03 17.53.28.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-12',
     title: 'Original Item 12',
     description: 'OEMオリジナルアイテム。',
-    images: ['67273abfae56b39e24af4bd6_スクリーンショット 2024-11-03 17.54.37.jpg']
+    images: ['67273abfae56b39e24af4bd6_スクリーンショット 2024-11-03 17.54.37.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-13',
     title: 'Original Item 13',
     description: 'OEMオリジナルアイテム。',
-    images: ['67273acccb09c6c7744d306f_スクリーンショット 2024-11-03 17.53.19.jpg']
+    images: ['67273acccb09c6c7744d306f_スクリーンショット 2024-11-03 17.53.19.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-14',
     title: 'Original Item 14',
     description: 'OEMオリジナルアイテム。',
-    images: ['67273ae982aa37fea65877ab_スクリーンショット 2024-11-03 17.53.02.jpg']
+    images: ['67273ae982aa37fea65877ab_スクリーンショット 2024-11-03 17.53.02.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-15',
     title: 'Original Item 15',
     description: 'OEMオリジナルアイテム。',
-    images: ['67273af4aad62a5fb8796628_スクリーンショット 2024-11-03 17.50.30.jpg']
+    images: ['67273af4aad62a5fb8796628_スクリーンショット 2024-11-03 17.50.30.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-16',
     title: 'Original Item 16',
     description: 'OEMオリジナルアイテム。',
-    images: ['67273afe41f0c324a91e0752_スクリーンショット 2024-11-03 17.52.17.jpg']
+    images: ['67273afe41f0c324a91e0752_スクリーンショット 2024-11-03 17.52.17.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-17',
     title: 'Original Item 17',
     description: 'OEMオリジナルアイテム。',
-    images: ['67273b09f881d1a5e6fa5ba7_スクリーンショット 2024-11-03 17.50.12.jpg']
+    images: ['67273b09f881d1a5e6fa5ba7_スクリーンショット 2024-11-03 17.50.12.jpg'],
+    tags: ['カスタムプリント']
   },
   {
     slug: 'item-18',
@@ -267,8 +284,11 @@ function loadArchives(container) {
   PRODUCTS.forEach(p => {
     const item = document.createElement('div');
     item.className = 'archive-item';
+    const tagsHtml = p.tags && p.tags.length
+      ? `<div class="archive-item-tags">${p.tags.map(t => `<span class="archive-tag">${t}</span>`).join('')}</div>`
+      : '';
     item.innerHTML = `
-      <a href="product.html?id=${p.slug}">
+      <a href="product.html?id=${p.slug}" class="archive-item-link">
         <img src="assets/images/${p.images[0]}" alt="${p.title}" loading="lazy">
         <div class="archive-item-overlay">
           <div class="archive-item-info">
@@ -277,6 +297,7 @@ function loadArchives(container) {
           </div>
         </div>
       </a>
+      ${tagsHtml}
     `;
     container.appendChild(item);
   });
