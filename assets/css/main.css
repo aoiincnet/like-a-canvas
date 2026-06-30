@@ -1037,7 +1037,8 @@ a {
   font-family: var(--font-heading);
   font-size: clamp(12px, 1.4vw, 14px);
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   margin-bottom: 6px;
 }
 
